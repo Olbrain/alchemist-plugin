@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "alchemist": {
+      "type": "http",
+      "url": "https://alchemist.olbrain.com/mcp/"
+    }
+  }
+}
