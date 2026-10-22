@@ -57,6 +57,7 @@ When a result has a `card`, the build is waiting on the user.
   must change it in Noesis.
 - **"Your Olbrain sign-in has ended":** tell the user to run `/mcp` and reconnect
   Alchemist.
+- **Out of credits:** when Alchemist says the developer is out of credits, show them the link and stop. Do not retry.
 - **`approval_not_open`:** the card was already answered, perhaps in Noesis. Call
   `alchemist_build` to see where the build is.
 
