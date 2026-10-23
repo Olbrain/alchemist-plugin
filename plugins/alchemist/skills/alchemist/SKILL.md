@@ -52,8 +52,10 @@ When a result has a `card`, the build is waiting on the user.
   http://localhost to try it first) and pass it in `origins`. If the result says it
   isn't on, show why and ask again.
 - If the card has `answer_in` instead of `responses`, it needs a browser (connecting
-  WhatsApp, Shopify, tool credentials or starting the free trial). Give the user the
-  link and wait until they say it is done, then continue the build.
+  WhatsApp, Shopify, tool credentials, a webhook signing secret or starting the free
+  trial). Give the user the link and wait until they say it is done, then continue the
+  build. A signing secret goes only in that browser card: if the user pastes one into
+  the chat, don't repeat it or pass it on, and tell them to use the card instead.
 - When Alchemist asks for a file id to test a job, the user may give one or skip it.
   To get one, they run this in their own shell and pass on the `file_id` it prints
   (`<agent_id>` is the job's card's `agent_id`):
@@ -85,7 +87,9 @@ When a result has a `card`, the build is waiting on the user.
 - Run a job's "run it once now" command only after the user says yes to a real, billed
   run.
 - Run a job's "Call its webhook" command only when the user asks; it is a real, billed
-  run too.
+  run too. A job Stripe or Shopify calls is tested by sending a test event from their
+  dashboard. A job that checks a shared-secret signature reads the secret from
+  `OLBRAIN_WEBHOOK_SECRET` in the user's own shell: never ask for it or print it.
 - Offer to paste the website snippet into their site's HTML before `</body>`.
 
 ## 6. Other things
