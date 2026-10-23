@@ -54,6 +54,12 @@ When a result has a `card`, the build is waiting on the user.
 - If the card has `answer_in` instead of `responses`, it needs a browser (connecting
   WhatsApp, Shopify, tool credentials or starting the free trial). Give the user the
   link and wait until they say it is done, then continue the build.
+- When Alchemist asks for a file id to test a job, the user may give one or skip it.
+  To get one, they run this in their own shell and pass on the `file_id` it prints
+  (`<agent_id>` is the job's card's `agent_id`):
+  `curl -sS -X POST https://webhook.olbrain.com/api/agents/<agent_id>/upload -H "Authorization: Bearer $OLBRAIN_API_KEY" -F file=@<path>`.
+  It needs an access key in `$OLBRAIN_API_KEY`; if they have none yet, they skip, and
+  the test runs without the file. Never ask for the key itself.
 
 ## 4. When something goes wrong
 
@@ -78,6 +84,8 @@ When a result has a `card`, the build is waiting on the user.
 - Run the test command only when the user asks you to.
 - Run a job's "run it once now" command only after the user says yes to a real, billed
   run.
+- Run a job's "Call its webhook" command only when the user asks; it is a real, billed
+  run too.
 - Offer to paste the website snippet into their site's HTML before `</body>`.
 
 ## 6. Other things
