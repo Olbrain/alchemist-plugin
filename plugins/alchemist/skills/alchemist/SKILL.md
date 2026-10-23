@@ -43,9 +43,12 @@ When a result has a `card`, the build is waiting on the user.
 - Call `alchemist_answer` with their choice: `response` must be one of the card's
   `responses`. Put any extra words of theirs in `note`. A `merge` needs `keep`; per-item
   fix choices go in `items` with `approve`.
+- On a website connect card, ask the user for their site's address (https, or
+  http://localhost to try it first) and pass it in `origins`. If the result says it
+  isn't on, show why and ask again.
 - If the card has `answer_in` instead of `responses`, it needs a browser (connecting
-  WhatsApp, Shopify, tool credentials or billing). Give the user the link and wait
-  until they say it is done, then continue the build.
+  WhatsApp, Shopify, tool credentials or starting the free trial). Give the user the
+  link and wait until they say it is done, then continue the build.
 
 ## 4. When something goes wrong
 
@@ -61,7 +64,18 @@ When a result has a `card`, the build is waiting on the user.
 - **`approval_not_open`:** the card was already answered, perhaps in Noesis. Call
   `alchemist_build` to see where the build is.
 
-## 5. Other things
+## 5. Going live
+
+- When a result has `go_live`, show each agent's steps in order, with commands in code
+  blocks.
+- Never ask the user to paste the API key into the chat, and never print one. The key
+  goes in `OLBRAIN_API_KEY` in their own shell.
+- Run the test command only when the user asks you to.
+- Run a job's "run it once now" command only after the user says yes to a real, billed
+  run.
+- Offer to paste the website snippet into their site's HTML before `</body>`.
+
+## 6. Other things
 
 - `alchemist_builds` lists the user's builds; `alchemist_build` shows one, with any
   cards still waiting.
