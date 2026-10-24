@@ -35,8 +35,10 @@ Call `whoami` first.
   business, suggests agents and writes a requirements document for each.
 - When `extras` has a `question` (Cortex asking), ask it with your question tool: the
   `question` word for word, one option per entry in `options` (several may be picked when
-  `multi_select` is true). The user may answer in their own words instead. Send their
-  answer as the next `message` on the same build. Never answer it for them.
+  `multi_select` is true). If there are more options than your question tool allows, ask
+  in text and list every option; never drop or merge one. The user may answer in their
+  own words instead. Send their answer as the next `message` on the same build. Never
+  answer it for them.
 - Cortex's suggestions arrive on a `recommendations` card (section 3): approving it builds
   them.
 
