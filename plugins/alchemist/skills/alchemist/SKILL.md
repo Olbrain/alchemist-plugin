@@ -37,8 +37,12 @@ When a result has a `card`, the build is waiting on the user.
 
 - Show the card's `title`, `action_summary` and `body` as text.
 - Ask the user to choose with your question tool (`AskUserQuestion` in Claude Code):
-  one question, one option per `response`, labelled with the response name and
-  described by its `means`. Do not mark any option as recommended. If the user picks
+  one question, the card's `question` word for word, and one option per `response`,
+  labelled with its `label` and described by its `means`. Without a `question`, ask
+  what they want to do about the card's `action_summary`; without a `label`, use the
+  response name. Never shorten an address, link or name the user has to copy or act
+  on (a service account, a folder link): show it in full. Do not mark any option as
+  recommended. If the user picks
   "Other", treat their words as a `change` with them in `note`, or ask again if
   `change` is not offered. Without a question tool, list the `responses` with what each
   `means` and ask in text.
@@ -79,6 +83,8 @@ When a result has a `card`, the build is waiting on the user.
 
 ## 5. Going live
 
+- Don't call an agent or job live, or published, until a result says so: while a card
+  is waiting, it isn't.
 - When a result has `go_live`, show each agent's steps in order, with commands in code
   blocks.
 - Never ask the user to paste the API key into the chat, and never print one. The key
