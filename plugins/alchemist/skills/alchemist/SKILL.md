@@ -1,6 +1,6 @@
 ---
 name: alchemist
-description: Build, change, test and publish Olbrain AI agents with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, check on a build, answer an Alchemist approval card, or set up their Olbrain organisation.
+description: Build, change, test and publish Olbrain AI agents with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, get suggestions for which agents their business needs and their requirements documents, check on a build, answer an Alchemist approval card, or set up their Olbrain organisation.
 ---
 
 # Working with Alchemist
@@ -30,6 +30,17 @@ Call `whoami` first.
   while a turn runs.
 - Show the user `reply`. Summarise `progress` and `plan` in a line or two; do not paste
   them whole.
+- If the user doesn't know which agents they need, or asks what to build, pass that on as
+  it is: Alchemist hands them to Cortex, Olbrain's business analyst, which asks about the
+  business, suggests agents and writes a requirements document for each.
+- When `extras` has a `question` (Cortex asking), ask it with your question tool: the
+  `question` word for word, one option per entry in `options` (several may be picked when
+  `multi_select` is true). If there are more options than your question tool allows, ask
+  in text and list every option; never drop or merge one. The user may answer in their
+  own words instead. Send their answer as the next `message` on the same build. Never
+  answer it for them.
+- Cortex's suggestions arrive on a `recommendations` card (section 3): approving it builds
+  them.
 
 ## 3. Approval cards
 
