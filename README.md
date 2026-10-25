@@ -37,6 +37,9 @@ adds it under Organization settings → Connectors). Then click **Connect** and 
 - Ask in plain words: "Use Alchemist to build an agent that answers questions about
   our pricing and hands refunds to a person."
 - `/alchemist:build <what the agent should do>` starts a build.
+- "Put my support agent on my website" or "call my intake job when our signup form is
+  sent": Claude adds the chat snippet, or a server route that calls the agent, to your
+  project. It never puts your API key in browser code.
 - `/alchemist:status` shows your account, organisation, builds and any cards waiting
   on you.
 
@@ -57,6 +60,7 @@ choice, and Claude Code asks your permission before sending it.
 | `alchemist_builds` | List your builds                                               |
 | `alchemist_build`  | One build: its plan, agents and waiting cards                  |
 | `alchemist_stop`   | Stop the turn a build is running                               |
+| `alchemist_connect` | Put a live agent on your website or call it from your code    |
 
 Inviting people and joining an organisation happen in
 [Noesis](https://noesis.olbrain.com). Every build can also be opened there.

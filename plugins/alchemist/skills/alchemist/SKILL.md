@@ -1,6 +1,6 @@
 ---
 name: alchemist
-description: Build, change, test and publish Olbrain AI agents with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, get suggestions for which agents their business needs and their requirements documents, check on a build, answer an Alchemist approval card, or set up their Olbrain organisation.
+description: Build, change, test and publish Olbrain AI agents with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, get suggestions for which agents their business needs and their requirements documents, check on a build, answer an Alchemist approval card, put a live agent on their website or call it from their app's code, or set up their Olbrain organisation.
 ---
 
 # Working with Alchemist
@@ -113,9 +113,50 @@ When a result has a `card`, the build is waiting on the user.
 - Sending a job its email, or adding a file to its Drive folder, is a real, billed run
   too: do it only when the user asks. Use the job's address exactly as the go-live
   steps give it; never write one yourself.
-- Offer to paste the website snippet into their site's HTML before `</body>`.
+- Offer to add the website snippet to their site (section 6).
 
-## 6. Other things
+## 6. Put a live agent on a website or in an app
+
+For an agent that is already live, use `alchemist_connect`, not a build: it costs no
+credits. Without `agent_id` it lists the live chat agents and jobs; ask the user which
+one. With `agent_id` it returns the agent's `steps`, the same kind as `go_live`, and the
+rules in section 5 apply to them. A team is connected through its front-door chat agent.
+
+Look at the user's project first, then pick the way that fits what they asked for:
+
+- **A chat bubble on their site (the simplest).** Ask for the site's address (https, or
+  http://localhost with its port to try it first) and call `alchemist_connect` with it in
+  `origins`. It answers only on those addresses. Add the snippet from the "Website chat"
+  step once, on every page: before `</body>` in plain HTML, in the app's `index.html` for a
+  single-page React or Vue app (the root one with Vite, `public/` with Create React App), or in the root layout with `next/script` for Next.js
+  (`<Script src="…" strategy="afterInteractive" />`, the snippet's `src`). Then ask them
+  to open the page and send a message.
+- **Their own chat UI.** The API key can run any agent in the organisation, so it never
+  goes in browser code, and the website snippet is not used. Add a server route in their
+  app (a Next.js route handler, an Express route, a FastAPI endpoint, whatever they
+  already use) that reads `OLBRAIN_API_KEY` from the environment and calls the agent
+  with the SDK code from the steps. The browser posts `{ message, sessionId }` to that
+  route; the route creates a session when there is none and returns
+  `{ sessionId, text }`. Keep one session per conversation, so the agent remembers it.
+  Replies come back whole, not streamed: show a "typing" state while waiting.
+- **A job started from their app** (a form, a signup, an order). Their server posts the
+  job's input, in the shape the "Call its webhook" step shows, to the job's webhook
+  with the key, and keeps the `run_id` it gets back. The result is read from the run
+  ("Read the run" step); nothing calls their app back, so poll it or show "processing".
+  Never call it from the browser.
+
+Every way:
+
+- The key goes in their server's environment (`.env.local`, `.env`, their host's
+  settings), never in the chat, in browser code or in git. Check `.env*` is in
+  `.gitignore` before adding it. If they have no key yet, the first step says who
+  creates it.
+- Show the user each change you make to their code. Running their app against the live
+  agent is a real, billed conversation or run: do it only when they ask.
+- If `alchemist_connect` refuses, show its words. "It isn't live yet" means the agent
+  needs publishing first: offer a build with `attach_agent_id`.
+
+## 7. Other things
 
 - `alchemist_builds` lists the user's builds; `alchemist_build` shows one, with any
   cards still waiting.
