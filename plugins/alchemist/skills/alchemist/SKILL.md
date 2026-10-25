@@ -28,7 +28,7 @@ Call `whoami` first.
 - To change an existing agent, start a new build with `attach_agent_id`.
 - One turn can take several minutes. Tell the user it is working; do not call again
   while a turn runs.
-- Show the user `reply`. Summarise `progress` and `plan` in a line or two; do not paste
+- Show the user `reply`; summarise `earlier` in a line only if it adds something. Summarise `progress` and `plan` in a line or two; do not paste
   them whole.
 - If the user doesn't know which agents they need, or asks what to build, pass that on as
   it is: Alchemist hands them to Cortex, Olbrain's business analyst, which asks about the
