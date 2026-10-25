@@ -77,6 +77,9 @@ When a result has a `card`, the build is waiting on the user.
   `curl -sS -X POST https://webhook.olbrain.com/api/agents/<agent_id>/upload -H "Authorization: Bearer $OLBRAIN_API_KEY" -F file=@<path>`.
   It needs an access key in `$OLBRAIN_API_KEY`; if they have none yet, they skip, and
   the test runs without the file. Never ask for the key itself.
+- A Drive folder card asks the user to share their folder with the address it shows,
+  as a Viewer. They share it themselves in Google Drive; don't share it for them. It is
+  answered here, not in the browser: once they say it is shared, answer `approve`.
 
 ## 4. When something goes wrong
 
@@ -107,6 +110,9 @@ When a result has a `card`, the build is waiting on the user.
   run too. A job Stripe or Shopify calls is tested by sending a test event from their
   dashboard. A job that checks a shared-secret signature reads the secret from
   `OLBRAIN_WEBHOOK_SECRET` in the user's own shell: never ask for it or print it.
+- Sending a job its email, or adding a file to its Drive folder, is a real, billed run
+  too: do it only when the user asks. Use the job's address exactly as the go-live
+  steps give it; never write one yourself.
 - Offer to paste the website snippet into their site's HTML before `</body>`.
 
 ## 6. Other things
