@@ -67,10 +67,16 @@ Inviting people and joining an organisation happen in
 
 ## Privacy
 
-Every call goes to `https://alchemist.olbrain.com`, which acts as you in Olbrain. It
+Every tool call goes to `https://alchemist.olbrain.com`, which acts as you in Olbrain. It
 keeps your Olbrain sign-in encrypted so you stay signed in, and you can end that at any
-time by removing the connection. What Alchemist keeps and for how long:
-[alchemist.olbrain.com/privacy](https://alchemist.olbrain.com/privacy).
+time by removing the connection.
+
+Once an agent is live, its go-live steps call Olbrain's agent API at
+`https://webhook.olbrain.com` with your organisation's API key: to test it, upload a
+file for a job, start a job, or from the server route Claude adds to your app. You run
+those commands yourself, and the key stays in your own environment.
+
+Olbrain's privacy policy: [olbrain.com/privacy.html](https://olbrain.com/privacy.html).
 
 ## Licence
 
