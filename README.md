@@ -69,7 +69,8 @@ Inviting people and joining an organisation happen in
 
 Every call goes to `https://alchemist.olbrain.com`, which acts as you in Olbrain. It
 keeps your Olbrain sign-in encrypted so you stay signed in, and you can end that at any
-time by signing out of Olbrain or removing the connection.
+time by removing the connection. What Alchemist keeps and for how long:
+[alchemist.olbrain.com/privacy](https://alchemist.olbrain.com/privacy).
 
 ## Licence
 
