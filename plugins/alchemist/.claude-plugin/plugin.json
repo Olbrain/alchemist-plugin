@@ -12,5 +12,7 @@
   "icon": "./.claude-plugin/icon.png",
   "privacyPolicyUrl": "https://olbrain.com/privacy.html",
   "documentationUrl": "https://docs.olbrain.com",
+  "supportUrl": "https://olbrain.com/contact/",
+  "termsOfServiceUrl": "https://olbrain.com/terms.html",
   "keywords": ["olbrain", "agents", "alchemist", "mcp"]
 }
