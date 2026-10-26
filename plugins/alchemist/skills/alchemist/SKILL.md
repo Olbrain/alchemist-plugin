@@ -21,6 +21,9 @@ Call `whoami` first.
 
 ## 2. Run a build
 
+- When the user asks what Alchemist can do, or whether it can do something (a channel, a
+  connector, a kind of agent or trigger), call `alchemist_capabilities` and answer from it. Never
+  say Alchemist can't do something without checking it first.
 - Pass the user's request to `alchemist` as `message`, in their words. Add detail only
   when they give it to you.
 - Keep the `build_id` from the result, and pass it on every later call for the same
