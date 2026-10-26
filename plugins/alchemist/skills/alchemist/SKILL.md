@@ -72,11 +72,11 @@ When a result has a `card`, the build is waiting on the user.
   build. A signing secret goes only in that browser card: if the user pastes one into
   the chat, don't repeat it or pass it on, and tell them to use the card instead.
 - When Alchemist asks for a file id to test a job, the user may give one or skip it.
-  To get one, they run this in their own shell and pass on the `file_id` it prints
-  (`<agent_id>` is the job's card's `agent_id`):
-  `curl -sS -X POST https://webhook.olbrain.com/api/agents/<agent_id>/upload -H "Authorization: Bearer $OLBRAIN_API_KEY" -F file=@<path>`.
-  It needs an access key in `$OLBRAIN_API_KEY`; if they have none yet, they skip, and
-  the test runs without the file. Never ask for the key itself.
+  To get one, they upload the file themselves, with their access key, as the multipart
+  field `file` in a POST to `https://webhook.olbrain.com/api/agents/<agent_id>/upload`
+  (`<agent_id>` is the job's card's `agent_id`), and pass on the `file_id` it returns.
+  If they have no key yet, they skip, and the test runs without the file. Never ask for
+  the key itself.
 - A Drive folder card asks the user to share their folder with the address it shows,
   as a Viewer. They share it themselves in Google Drive; don't share it for them. It is
   answered here, not in the browser: once they say it is shared, answer `approve`.
@@ -101,15 +101,13 @@ When a result has a `card`, the build is waiting on the user.
   is waiting, it isn't.
 - When a result has `go_live`, show each agent's steps in order, with commands in code
   blocks.
-- Never ask the user to paste the API key into the chat, and never print one. The key
-  goes in `OLBRAIN_API_KEY` in their own shell.
-- Run the test command only when the user asks you to.
-- Run a job's "run it once now" command only after the user says yes to a real, billed
-  run.
-- Run a job's "Call its webhook" command only when the user asks; it is a real, billed
-  run too. A job Stripe or Shopify calls is tested by sending a test event from their
-  dashboard. A job that checks a shared-secret signature reads the secret from
-  `OLBRAIN_WEBHOOK_SECRET` in the user's own shell: never ask for it or print it.
+- Never ask the user to paste the API key into the chat, and never print one.
+- A command that uses their key or a signing secret is theirs to run: show it, and they
+  run it in their own shell (or type `!` and the command here). Never run one yourself,
+  and never read the key or a secret from their machine.
+- The test command, a job's "run it once now" and its "Call its webhook" are real,
+  billed runs. A job Stripe or Shopify calls is tested by sending a test event from
+  their dashboard.
 - Sending a job its email, or adding a file to its Drive folder, is a real, billed run
   too: do it only when the user asks. Use the job's address exactly as the go-live
   steps give it; never write one yourself.
