@@ -11,5 +11,6 @@
   "license": "UNLICENSED",
   "icon": "./.claude-plugin/icon.png",
   "privacyPolicyUrl": "https://olbrain.com/privacy.html",
+  "documentationUrl": "https://docs.olbrain.com",
   "keywords": ["olbrain", "agents", "alchemist", "mcp"]
 }
