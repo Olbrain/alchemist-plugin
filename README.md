@@ -43,6 +43,15 @@ Every agent it builds runs on Olbrain and stays visible in
 [Noesis](https://noesis.olbrain.com), Olbrain's console, where your team can open, review
 and change it.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/diagram-team-dark.png">
+    <img src="assets/diagram-team-light.png" alt="Diagram of Olbrain's First Agent team: WhatsApp and website chat reach one front door, which asks four specialist agents: Pre-Sales, Investor Relations, Media Relations and Technical Support" width="880">
+  </picture>
+  <br>
+  <sub>Olbrain's own front door, built with Alchemist: one team of agents on WhatsApp and website chat.</sub>
+</p>
+
 ## Install
 
 ### Claude Code
@@ -95,11 +104,20 @@ never answers a card for you.
 - *"Put my support agent on my website"* or *"call my intake job when our signup form is
   sent"*: Claude adds the chat snippet, or a server route that calls the agent, to your
   project. It never puts your API key in browser code.
-- *"Show me my support agent"*: Claude draws it as a read-only diagram.
+- *"Show me my support agent"*: Claude draws it as a read-only diagram (example below).
 - *"What can Alchemist do?"* or *"Can it answer calls on our phone number?"*: Claude checks
   the live capability list before saying yes or no.
 - *"Where is my ticket TKT-…?"* or *"Raise a ticket: our webhook job didn't run"*: Alchemist
   handles your Olbrain support tickets in the same session.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/diagram-chat-dark.png">
+    <img src="assets/diagram-chat-light.png" alt="Diagram of the Myra chat agent: it hears from website chat, WhatsApp and Slack, checks its guardrails, consults its knowledge file and replies" width="880">
+  </picture>
+  <br>
+  <sub>A chat agent's diagram: where it hears from, what it checks, what it consults and how it ends.</sub>
+</p>
 
 ## Capabilities
 
