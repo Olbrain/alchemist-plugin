@@ -1,0 +1,37 @@
+{
+  "name": "alchemist",
+  "version": "0.8.6",
+  "description": "Build, test and publish Olbrain AI agents from Codex, with Olbrain's Alchemist builder.",
+  "author": {
+    "name": "Olbrain",
+    "url": "https://olbrain.com"
+  },
+  "homepage": "https://github.com/Olbrain/alchemist-plugin",
+  "repository": "https://github.com/Olbrain/alchemist-plugin",
+  "license": "UNLICENSED",
+  "keywords": ["olbrain", "agents", "alchemist", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Olbrain Alchemist",
+    "shortDescription": "Build and publish AI agents",
+    "longDescription": "Alchemist is Olbrain's agent builder. Tell Codex what the agent should do, in plain words. Alchemist's own model works out what kind of agent it is, plans it, builds it in your Olbrain organisation, tests it on real inputs and publishes it, asking you before anything goes live.\n\nIt builds chat agents, automatic jobs (started by a schedule, a webhook, an email or a new file in a watched folder), teams of agents behind one front door, and research agents. It connects website chat, WhatsApp, Shopify storefront chat, your phone number and Microsoft Teams, tools from Olbrain's connector catalog, any REST API or your own MCP server, and the agent's knowledge files.\n\nIt also shows an agent as a diagram, reviews live agents, puts a live agent on your website or behind a server route in your project, and handles your Olbrain support tickets. Every agent runs on Olbrain and stays visible in Noesis, Olbrain's console, where your team can open, review and change it.",
+    "developerName": "Olbrain",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://olbrain.com/developers/",
+    "supportURL": "https://olbrain.com/contact/",
+    "privacyPolicyURL": "https://olbrain.com/privacy.html",
+    "termsOfServiceURL": "https://olbrain.com/terms.html",
+    "defaultPrompt": [
+      "Use Alchemist to build an agent that answers questions about our pricing and hands refunds to a person",
+      "What can Alchemist do?",
+      "Put my support agent on my website"
+    ],
+    "brandColor": "#111111",
+    "brandColorDark": "#EEEEEE",
+    "composerIcon": "./.claude-plugin/icon.png",
+    "logo": "./.claude-plugin/icon.png",
+    "screenshots": []
+  }
+}
