@@ -11,7 +11,7 @@
 
 <p align="center">
   Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex or claude.ai.<br>
-  You describe the agent. Alchemist plans it, builds it, tests it — and asks you before anything goes live.
+  You describe the agent. Alchemist plans it, builds it, tests it — and asks you before anything goes live, unless you let Claude decide.
 </p>
 
 <p align="center">
@@ -92,8 +92,11 @@ under Organization settings → Connectors). Then click **Connect** and sign in.
 | `06`&nbsp;Go&nbsp;live | Embed code, API and SDK steps, or the channel it answers on. | You run the commands |
 
 Before Alchemist publishes an agent, makes it live, merges agents or changes how one behaves,
-it stops with an **approval card**. Claude shows you the card and waits for your choice. It
-never answers a card for you.
+it stops with an **approval card**. You decide how many of these Claude answers for you:
+tell it in the chat, or put it in your `CLAUDE.md` or `AGENTS.md`, for example *"Approve
+plans and tests yourself; ask me before publishing."* If you haven't said, Claude answers
+every card itself in auto mode (Codex: running without approvals) and asks you otherwise.
+It still asks for what only you can do, like sharing a Drive folder or a browser step.
 
 ## Use it
 
