@@ -26,9 +26,20 @@ Call `whoami` first.
   say Alchemist can't do something without checking it first.
 - Pass the user's request to `alchemist` as `message`, in their words. Add detail only
   when they give it to you.
-- Keep the `build_id` from the result, and pass it on every later call for the same
-  build.
-- To change an existing agent, start a new build with `attach_agent_id`.
+- Keep the `build_id` from the result. Which build a message goes to:
+  - **The same build** (pass its `build_id`): anything more about the agents it is
+    building, while it runs, while a card waits, and for follow-ups after it publishes
+    in this conversation.
+  - **A new build** (no `build_id`): a new or unrelated agent. A `build_id` that returns
+    "Not found" was archived or belongs to another organisation (after `select_org`):
+    start a new one too.
+  - **A new build with `attach_agent_id`**: changing an agent built in an earlier
+    conversation.
+  - **Earlier work without its `build_id`** (a new session, a cleared chat): when the user
+    says to continue or finish something, call `alchemist_builds` and pick the build by
+    its title and `agents`; `cards_waiting` and `turn_running` show where it stands. Read
+    it with `alchemist_build` before going on. If more than one could be it, ask the
+    user. Never start a new build for work that already has one.
 - One turn can take several minutes. Tell the user it is working; do not call again
   while a turn runs.
 - Show the user `reply`; summarise `earlier` in a line only if it adds something. Summarise `progress` and `plan` in a line or two; do not paste
@@ -101,6 +112,8 @@ When a result has a `card`, the build is waiting on the user.
 - **`finished` is false, or `errors` has `stream_dropped`:** the turn may still be
   running. Call `alchemist_build` to check before anything else. Never resend the same
   message blindly; that starts a second turn.
+- **"A turn is still running on this build":** the last turn hasn't ended. Call
+  `alchemist_build` and wait for it; don't send again until `turn_running` is false.
 - **The user wants to stop:** call `alchemist_stop` with the `build_id`.
 - **A role error:** their role in this organisation cannot build. An owner or admin
   must change it in Noesis.
@@ -186,7 +199,8 @@ user's answer back and never give it for them. A ticket turn uses credits like a
 
 ## 9. Other things
 
-- `alchemist_builds` lists the user's builds; `alchemist_build` shows one, with any
+- `alchemist_builds` lists the user's builds, with the agents each built, its waiting
+  cards and whether a turn is running; `alchemist_build` shows one, with any
   cards still waiting.
 - `list_members` shows who is in the organisation. Inviting people and joining
   organisations happen in Noesis: https://noesis.olbrain.com
