@@ -120,6 +120,12 @@ When a result has a `card`, the build is waiting on the user.
 - **"Your Olbrain sign-in has ended":** tell the user to run `/mcp` and reconnect
   Alchemist.
 - **Out of credits:** when Alchemist says the developer is out of credits, show them the link and stop. Do not retry.
+- **The host blocks, denies or cancels `alchemist_answer`** (a permission prompt the user
+  declined, or an automatic safety check): do not retry it, and do not look for another
+  way to send the answer. Call `alchemist_build` first; a cancelled answer may already have
+  been applied (a publish may have started). If the card is still waiting, give the user
+  the build's `noesis_url` to answer it there, and continue with `alchemist_build` once they
+  say it is done. Who answers which cards is still decided by section 3.
 - **`approval_not_open`:** the card was already answered, perhaps in Noesis. Call
   `alchemist_build` to see where the build is.
 

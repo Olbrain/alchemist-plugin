@@ -97,6 +97,9 @@ tell it in the chat, or put it in your `CLAUDE.md` or `AGENTS.md`, for example *
 plans and tests yourself; ask me before publishing."* If you haven't said, Claude answers
 every card itself in auto mode (Codex: running without approvals) and asks you otherwise.
 It still asks for what only you can do, like sharing a Drive folder or a browser step.
+If Claude Code blocks an answer, answer the card on its build page, or allow the tool with
+`/permissions`: `mcp__plugin_alchemist_alchemist__alchemist_answer` when installed as the plugin,
+`mcp__claude_ai_Alchemist__alchemist_answer` when added as a claude.ai connector.
 
 ## Use it
 
