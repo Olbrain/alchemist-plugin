@@ -1,6 +1,6 @@
 ---
 name: alchemist
-description: Build, change, test and publish Olbrain AI agents with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, get suggestions for which agents their business needs and their requirements documents, check on a build, answer an Alchemist approval card, put a live agent on their website or call it from their app's code, or set up their Olbrain organisation.
+description: Build, change, test and publish Olbrain AI agents (chat agents, automatic jobs, teams of agents and research agents) with Alchemist, Olbrain's agent builder. Use when the user wants to create or edit an Olbrain agent, asks what Alchemist can do or whether it can do something, get suggestions for which agents their business needs and their requirements documents, check on a build, answer an Alchemist approval card, see an agent as a diagram, put a live agent on their website or call it from their app's code, raise or follow up their Olbrain support tickets, or set up their Olbrain organisation.
 ---
 
 # Working with Alchemist
@@ -70,8 +70,8 @@ When a result has a `card`, the build is waiting on the user.
   http://localhost to try it first) and pass it in `origins`. If the result says it
   isn't on, show why and ask again.
 - If the card has `answer_in` instead of `responses`, it needs a browser (connecting
-  WhatsApp, Shopify, tool credentials, a webhook signing secret or starting the free
-  trial). Give the user the link and wait until they say it is done, then continue the
+  a channel such as WhatsApp, a phone line or Microsoft Teams, Shopify, tool credentials
+  or keys, a webhook signing secret, or starting the free trial). Give the user the link and wait until they say it is done, then continue the
   build. A signing secret goes only in that browser card: if the user pastes one into
   the chat, don't repeat it or pass it on, and tell them to use the card instead.
 - When Alchemist asks for a file id to test a job, the user may give one or skip it.
@@ -114,6 +114,8 @@ When a result has a `card`, the build is waiting on the user.
 - Sending a job its email, or adding a file to its Drive folder, is a real, billed run
   too: do it only when the user asks. Use the job's address exactly as the go-live
   steps give it; never write one yourself.
+- A call to the agent's phone number, a message to it in Microsoft Teams, and a report
+  asked of a research agent are real, billed conversations or runs as well.
 - Offer to add the website snippet to their site (section 6).
 
 ## 6. Put a live agent on a website or in an app
@@ -157,7 +159,20 @@ Every way:
 - If `alchemist_connect` refuses, show its words. "It isn't live yet" means the agent
   needs publishing first: offer a build with `attach_agent_id`.
 
-## 7. Other things
+## 7. See an agent
+
+Call `alchemist_show_agent` with the agent's `agent_id` after a publish, or whenever the
+user asks to see an agent. It is read-only. Where the diagram can't show in the chat
+(Claude Code, Codex), give the user its `view_url` as a link; it opens for 15 minutes.
+
+## 8. Support tickets
+
+The user's Olbrain support tickets, the same ones Noesis shows, are handled through
+`alchemist`: pass their request in their words (raise one, check its status, add to it,
+escalate, close, reopen or rate it). Alchemist asks before it changes a ticket; carry the
+user's answer back and never give it for them. A ticket turn uses credits like any other.
+
+## 9. Other things
 
 - `alchemist_builds` lists the user's builds; `alchemist_build` shows one, with any
   cards still waiting.
