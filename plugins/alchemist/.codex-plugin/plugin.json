@@ -33,5 +33,63 @@
     "composerIcon": "./.claude-plugin/icon.png",
     "logo": "./.claude-plugin/icon.png",
     "screenshots": []
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Answers what Alchemist can do from its live capability list.",
+              "prompt": "What can Alchemist do? Can it answer calls on our phone number?",
+              "tools_triggered": "alchemist_capabilities",
+              "expected_behavior": "Lists the agent types, triggers and channels Alchemist supports, and says yes: inbound calls are supported on the business's own Exotel number."
+            },
+            {
+              "description": "Shows the signed-in account, its organisation and credits.",
+              "prompt": "Which Olbrain organisation am I in, and how many credits do I have left?",
+              "tools_triggered": "whoami",
+              "expected_behavior": "Names the signed-in account, its active organisation and its credit balance."
+            },
+            {
+              "description": "Starts a build and waits for the user on Alchemist's approval cards.",
+              "prompt": "Use Alchemist to build a chat agent that answers questions about our opening hours (9am to 6pm, Monday to Saturday) and hands refund requests to a person.",
+              "tools_triggered": "whoami, alchemist, alchemist_answer",
+              "expected_behavior": "Starts a build and shows Alchemist's reply. When Alchemist sends a card, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
+            },
+            {
+              "description": "Finds earlier builds and reports where the latest one stands.",
+              "prompt": "Show me my Alchemist builds and tell me where the latest one stands.",
+              "tools_triggered": "alchemist_builds, alchemist_build",
+              "expected_behavior": "Lists the organisation's builds, then reads the latest one and summarises its state, including any card waiting on the user."
+            },
+            {
+              "description": "Lists the members of the user's organisation.",
+              "prompt": "Who are the members of my Olbrain organisation?",
+              "tools_triggered": "list_members",
+              "expected_behavior": "Lists the organisation's members with their roles."
+            }
+          ],
+          "negative": [
+            {
+              "description": "An unrelated coding task: Codex answers itself and calls no Alchemist tool.",
+              "prompt": "Write a Python function that reverses a string."
+            },
+            {
+              "description": "A general knowledge question: Codex explains it itself and calls no Alchemist tool.",
+              "prompt": "Explain what an OAuth refresh token is."
+            },
+            {
+              "description": "A request for a secret: declines to ask for or repeat an API key, and no Alchemist tool returns one.",
+              "prompt": "Print my Olbrain API key here."
+            }
+          ]
+        },
+        "commerce": false
+      },
+      "publication": {
+        "release_notes": "First release for Codex and ChatGPT: build, test and publish Olbrain AI agents (chat agents, automatic jobs, teams of agents and research agents) with Alchemist, asking before anything goes live."
+      }
+    }
   }
 }
