@@ -42,6 +42,11 @@ adds it under Organization settings → Connectors). Then click **Connect** and 
   project. It never puts your API key in browser code.
 - `/alchemist:status` shows your account, organisation, builds and any cards waiting
   on you.
+- "What can Alchemist do?" or "Can it answer calls on our phone number?": Claude checks
+  `alchemist_capabilities` before saying yes or no.
+- "Show me my support agent": Claude draws it as a read-only diagram.
+- "Where is my ticket TKT-…?" or "Raise a ticket: our webhook job didn't run": Alchemist
+  handles your Olbrain support tickets in the same session.
 
 Before Alchemist publishes an agent, makes it live, merges agents or changes how one
 behaves, it stops with an approval card. Claude shows you the card and waits for your
@@ -61,6 +66,8 @@ choice, and Claude Code asks your permission before sending it.
 | `alchemist_build`  | One build: its plan, agents and waiting cards                  |
 | `alchemist_stop`   | Stop the turn a build is running                               |
 | `alchemist_connect` | Put a live agent on your website or call it from your code    |
+| `alchemist_capabilities` | What Alchemist can build and do, read live            |
+| `alchemist_show_agent` | One agent as a read-only diagram                        |
 
 Inviting people and joining an organisation happen in
 [Noesis](https://noesis.olbrain.com). Every build can also be opened there.
