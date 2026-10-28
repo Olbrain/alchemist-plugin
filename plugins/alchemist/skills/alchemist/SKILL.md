@@ -131,6 +131,10 @@ When a result has a `card`, the build is waiting on the user.
 - **"Your Olbrain sign-in has ended":** tell the user to run `/mcp` and reconnect
   Alchemist.
 - **Out of credits:** when Alchemist says the developer is out of credits, show them the link and stop. Do not retry.
+- **"Alchemist is unavailable right now":** the service is down on Olbrain's side. Tell the
+  user in those words. Do not resend the message in a loop, and do not guess at or explain a
+  cause (it is not their credits and not something they did). Their build is kept: when they
+  come back, find it with `alchemist_builds` and carry on.
 - **The host blocks, denies or cancels `alchemist_answer`** (a permission prompt the user
   declined, or an automatic safety check): do not retry it, and do not look for another
   way to send the answer. Call `alchemist_build` first; a cancelled answer may already have
