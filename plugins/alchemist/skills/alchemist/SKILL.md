@@ -41,12 +41,16 @@ Call `whoami` first.
      `select_org`): start a new one too.
   5. **Earlier work without its `build_id`** (a new session, a cleared chat): when the user
      says to continue or finish something, call `alchemist_builds` and match it by `label`
-     and `agents`. Waiting and running builds come first; an `empty` build has nothing in
-     it. Read the match with `alchemist_build` before going on. If more than one could be
+     and `agents`. Waiting and running builds come first. A build with `state` `idle` has no
+     agent yet, but it can hold an unfinished interview with Cortex that is waiting for
+     the user's answer: read its last messages before calling it empty. Read the match
+     with `alchemist_build` before going on. If more than one could be
      it, ask the user, naming each build by its `label`, never by id. Never start a new
      build for work that already has one.
 - When a new build's result has `resume_hint`, the user has other builds still open. Say so
   in a line, by `label`, and offer to go back to one; the new build stays as it is.
+- When you start a new build, pass `title`: the agent's purpose in a few plain words, so
+  the build is easy to find later.
 - One turn can take several minutes. Tell the user it is working; do not call again
   while a turn runs.
 - Show the user `reply`; summarise `earlier` in a line only if it adds something. Summarise `progress` and `plan` in a line or two; do not paste
@@ -215,9 +219,14 @@ user's answer back and never give it for them. A ticket turn uses credits like a
 
 ## 9. Other things
 
-- `alchemist_builds` lists the user's own builds, each with a `state` and a readable
-  `label` (waiting and running first); `alchemist_build` shows one, with any cards still
-  waiting and a `next_step`.
+- `alchemist_builds` lists the user's own builds, each with a `state` (`running`,
+  `needs_you`, `in_progress`, `published` or `idle`) and a readable `label` (waiting and
+  running first); `alchemist_build` shows one, with any cards still waiting and a
+  `next_step`.
+- `alchemist_edit_build` renames a build (`title`) or archives it (`archived` true; false
+  brings it back). Do it only when the user asks, and by `label`, not id. Archiving hides
+  the build and can be undone; read a build first and never archive one that still has
+  something waiting or an unfinished interview.
 - `list_members` shows who is in the organisation. Inviting people and joining
   organisations happen in Noesis: https://noesis.olbrain.com
 - Every build is also visible at its `noesis_url`.
