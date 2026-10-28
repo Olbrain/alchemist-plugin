@@ -11,8 +11,8 @@ allowed-tools:
 Show the user where things stand in Alchemist:
 
 1. Call `whoami`: who they are signed in as and the active organisation.
-2. Call `alchemist_builds`: list the builds, newest first, with their title, agents,
-   `cards_waiting` and whether a turn is running.
+2. Call `alchemist_builds`: list the builds by `label`, in the order returned (waiting
+   and running first). Show `empty` builds as a count, not one by one.
 3. For each build with a card waiting or a turn running, call `alchemist_build` and
    show any open cards with their title and `responses`.
 

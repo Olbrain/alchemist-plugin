@@ -26,20 +26,27 @@ Call `whoami` first.
   say Alchemist can't do something without checking it first.
 - Pass the user's request to `alchemist` as `message`, in their words. Add detail only
   when they give it to you.
-- Keep the `build_id` from the result. Which build a message goes to:
-  - **The same build** (pass its `build_id`): anything more about the agents it is
-    building, while it runs, while a card waits, and for follow-ups after it publishes
-    in this conversation.
-  - **A new build** (no `build_id`): a new or unrelated agent. A `build_id` that returns
-    "Not found" was archived or belongs to another organisation (after `select_org`):
-    start a new one too.
-  - **A new build with `attach_agent_id`**: changing an agent built in an earlier
-    conversation.
-  - **Earlier work without its `build_id`** (a new session, a cleared chat): when the user
-    says to continue or finish something, call `alchemist_builds` and pick the build by
-    its title and `agents`; `cards_waiting` and `turn_running` show where it stands. Read
-    it with `alchemist_build` before going on. If more than one could be it, ask the
-    user. Never start a new build for work that already has one.
+- Keep the `build_id` from the result. Which build a message goes to; the first match wins:
+  1. **A build with a card waiting or a turn running** (`state` `needs_you` or `running`
+     in `alchemist_builds`, or `next_step` in `alchemist_build`): continue it. Never start
+     a new build for that work, and never send another message while a turn runs.
+  2. **The same build** (pass its `build_id`): anything more about the agents it is
+     building, and follow-ups after it publishes in this conversation.
+  3. **A new build with `attach_agent_id`**: changing a published agent whose build is
+     not in this conversation, including one built in an earlier conversation or by
+     someone else in the organisation. Builds are private to the person who started
+     them; the agent is shared.
+  4. **A new build** (no `build_id`): a new or unrelated agent. A `build_id` that returns
+     "Not found" was archived or isn't theirs (or the organisation changed after
+     `select_org`): start a new one too.
+  5. **Earlier work without its `build_id`** (a new session, a cleared chat): when the user
+     says to continue or finish something, call `alchemist_builds` and match it by `label`
+     and `agents`. Waiting and running builds come first; an `empty` build has nothing in
+     it. Read the match with `alchemist_build` before going on. If more than one could be
+     it, ask the user, naming each build by its `label`, never by id. Never start a new
+     build for work that already has one.
+- When a new build's result has `resume_hint`, the user has other builds still open. Say so
+  in a line, by `label`, and offer to go back to one; the new build stays as it is.
 - One turn can take several minutes. Tell the user it is working; do not call again
   while a turn runs.
 - Show the user `reply`; summarise `earlier` in a line only if it adds something. Summarise `progress` and `plan` in a line or two; do not paste
@@ -205,9 +212,9 @@ user's answer back and never give it for them. A ticket turn uses credits like a
 
 ## 9. Other things
 
-- `alchemist_builds` lists the user's builds, with the agents each built, its waiting
-  cards and whether a turn is running; `alchemist_build` shows one, with any
-  cards still waiting.
+- `alchemist_builds` lists the user's own builds, each with a `state` and a readable
+  `label` (waiting and running first); `alchemist_build` shows one, with any cards still
+  waiting and a `next_step`.
 - `list_members` shows who is in the organisation. Inviting people and joining
   organisations happen in Noesis: https://noesis.olbrain.com
 - Every build is also visible at its `noesis_url`.
