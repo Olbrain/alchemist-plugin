@@ -72,7 +72,8 @@ codex mcp login alchemist
 ```
 
 Optional: copy `plugins/alchemist/skills/alchemist` to `~/.agents/skills/alchemist` so Codex
-follows the same workflow as Claude.
+follows the same workflow as Claude, including when to continue a build and when to start a
+new one. Without it, the server's own instructions carry the same rule.
 
 ### claude.ai and Claude Code on the web
 
@@ -107,6 +108,9 @@ If Claude Code blocks an answer, answer the card on its build page, or allow the
   pricing and hands refunds to a person."*
 - `/alchemist:build <what the agent should do>` starts a build.
 - `/alchemist:status` shows your account, organisation, builds and any cards waiting on you.
+- *"Pick up my support agent build"*: Claude finds your build by name and carries on. Builds are
+  private to you; a teammate changes your published agent in a new build of their own. Anything
+  waiting on you comes first, and Claude doesn't start a duplicate.
 - *"Put my support agent on my website"* or *"call my intake job when our signup form is
   sent"*: Claude adds the chat snippet, or a server route that calls the agent, to your
   project. It never puts your API key in browser code.
@@ -264,8 +268,8 @@ can follow up on.
 | `list_members` | Who is in your organisation |
 | `alchemist` | One builder turn: describe or continue a build |
 | `alchemist_answer` | Send your choice on an approval card |
-| `alchemist_builds` | List your builds |
-| `alchemist_build` | One build: its plan, agents and waiting cards |
+| `alchemist_builds` | List your builds, each with a state and a readable label |
+| `alchemist_build` | One build: its plan, agents, waiting cards and next step |
 | `alchemist_stop` | Stop the turn a build is running |
 | `alchemist_connect` | Put a live agent on your website or call it from your code |
 | `alchemist_capabilities` | What Alchemist can build and do, read live |
