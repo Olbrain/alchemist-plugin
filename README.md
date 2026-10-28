@@ -268,9 +268,10 @@ can follow up on.
 | `list_members` | Who is in your organisation |
 | `alchemist` | One builder turn: describe or continue a build |
 | `alchemist_answer` | Send your choice on an approval card |
-| `alchemist_builds` | List your builds, each with a state (running, needs you, in progress, published, idle) and a readable label |
+| `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, completed, published, archived, idle) and a readable label |
 | `alchemist_build` | One build: its plan, agents, waiting cards and next step |
-| `alchemist_edit_build` | Rename a build, or archive it (and bring it back) |
+| `alchemist_edit_build` | Rename a build, or archive it (and bring it back), with an optional reason |
+| `alchemist_rate_build` | Rate how a build session went (up or down, with an optional comment) |
 | `alchemist_stop` | Stop the turn a build is running |
 | `alchemist_connect` | Put a live agent on your website or call it from your code |
 | `alchemist_capabilities` | What Alchemist can build and do, read live |

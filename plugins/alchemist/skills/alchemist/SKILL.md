@@ -131,6 +131,10 @@ When a result has a `card`, the build is waiting on the user.
 - **"Your Olbrain sign-in has ended":** tell the user to run `/mcp` and reconnect
   Alchemist.
 - **Out of credits:** when Alchemist says the developer is out of credits, show them the link and stop. Do not retry.
+- **"Alchemist is unavailable right now":** the service is down on Olbrain's side. Tell the
+  user in those words. Do not resend the message in a loop, and do not guess at or explain a
+  cause (it is not their credits and not something they did). Their build is kept: when they
+  come back, find it with `alchemist_builds` and carry on.
 - **The host blocks, denies or cancels `alchemist_answer`** (a permission prompt the user
   declined, or an automatic safety check): do not retry it, and do not look for another
   way to send the answer. Call `alchemist_build` first; a cancelled answer may already have
@@ -220,13 +224,25 @@ user's answer back and never give it for them. A ticket turn uses credits like a
 ## 9. Other things
 
 - `alchemist_builds` lists the user's own builds, each with a `state` (`running`,
-  `needs_you`, `in_progress`, `published` or `idle`) and a readable `label` (waiting and
-  running first); `alchemist_build` shows one, with any cards still waiting and a
+  `needs_you`, `stale`, `in_progress`, `completed`, `published`, `archived` or `idle`), a
+  `rating` once the user has rated it, and a readable `label` (waiting and running first); `alchemist_build` shows one, with any cards still waiting and a
   `next_step`.
 - `alchemist_edit_build` renames a build (`title`) or archives it (`archived` true; false
   brings it back). Do it only when the user asks, and by `label`, not id. Archiving hides
   the build and can be undone; read a build first and never archive one that still has
-  something waiting or an unfinished interview.
+  something waiting or an unfinished interview. If the user says why, pass it as `reason`
+  (`wrong_result`, `too_slow`, `confusing`, `not_needed`, `duplicate` or `other`); don't
+  press them for one.
+- A `stale` build has waited on the user for over two weeks. Say so by its `label`, and ask
+  whether to continue it or archive it. Never archive it yourself.
+- **Feedback on the session.** When a build is `completed`, or the user is archiving one,
+  you may ask once how it went: one short question with your question tool (good or not
+  good, an optional comment in their own words, an optional reason), all skippable. Skip it
+  when the build already has a `rating`, in the middle of a build, or when the user is in
+  a hurry. Send the answer with `alchemist_rate_build`: `rating` `up` or `down`, the
+  `comment` and `reasons` they gave. Never choose or invent a rating for them, and never
+  put a key or password in a comment. Tell them Olbrain's team reads the comment and
+  their organisation does not.
 - `list_members` shows who is in the organisation. Inviting people and joining
   organisations happen in Noesis: https://noesis.olbrain.com
 - Every build is also visible at its `noesis_url`.
