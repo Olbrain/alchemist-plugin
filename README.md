@@ -273,7 +273,7 @@ can follow up on.
 | `alchemist_stop` | Stop the turn a build is running |
 | `alchemist_connect` | Put a live agent on your website or call it from your code |
 | `alchemist_capabilities` | What Alchemist can build and do, read live |
-| `alchemist_show_agent` | One agent as a read-only diagram |
+| `alchemist_show_agent` | One agent, or one of its published versions, as a read-only diagram |
 
 Inviting people and joining an organisation happen in [Noesis](https://noesis.olbrain.com).
 Every build can also be opened there.
