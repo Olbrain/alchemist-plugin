@@ -200,8 +200,11 @@ Every way:
 ## 7. See an agent
 
 Call `alchemist_show_agent` with the agent's `agent_id` after a publish, or whenever the
-user asks to see an agent. It is read-only. Where the diagram can't show in the chat
-(Claude Code, Codex), give the user its `view_url` as a link; it opens for 15 minutes.
+user asks to see an agent. It is read-only. Without `version` it draws the draft, marked
+against the live version; to see one published version ("show me v3", "what did v2 look
+like"), pass `version` too, and it is marked against the version before it. Where the
+diagram can't show in the chat (Claude Code, Codex), give the user its `view_url` as a
+link; it opens for 15 minutes.
 
 ## 8. Support tickets
 
