@@ -52,13 +52,14 @@ Call `whoami` first.
 - When you start a new build, pass `title`: the agent's purpose in a few plain words, so
   the build is easy to find later.
 - A turn can take several minutes, and your host shows nothing while a call runs. So a
-  call returns after about 40 seconds with `errors` holding `still_running` while the
+  call returns after about 20 seconds with `errors` holding `still_running` while the
   turn carries on. Keep the user posted:
-  1. Tell them in one short line what it is doing, from `progress` (or `live`), in your
+  1. Tell them in one short line what it is doing, from `live` (or `progress`), in your
      own words: "Synapse is wiring up the agent's steps…". Skip lines that repeat the last
      update.
   2. Call `alchemist_build` with the `build_id`, `wait` true and `since` set to the
-     result's `live_since`. It returns within about 40 seconds with `live`, the new lines.
+     result's `live_since`. It returns with `live`, the new lines, once there are some
+     (10 to 30 seconds).
   3. Repeat while `turn_running` is true. Never send a message while a turn runs.
   4. When it is false, the turn is over: show its card from `open_cards` (section 3), the
      reply from the last `assistant` entry in `recent` (with its `question`, if any, asked

@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.8.6",
+  "version": "0.8.13",
   "description": "Build, test and publish Olbrain AI agents from Codex, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
