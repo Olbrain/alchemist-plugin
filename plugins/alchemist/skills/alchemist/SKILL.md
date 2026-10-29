@@ -51,8 +51,18 @@ Call `whoami` first.
   in a line, by `label`, and offer to go back to one; the new build stays as it is.
 - When you start a new build, pass `title`: the agent's purpose in a few plain words, so
   the build is easy to find later.
-- One turn can take several minutes. Tell the user it is working; do not call again
-  while a turn runs.
+- A turn can take several minutes, and your host shows nothing while a call runs. So a
+  call returns after about 40 seconds with `errors` holding `still_running` while the
+  turn carries on. Keep the user posted:
+  1. Tell them in one short line what it is doing, from `progress` (or `live`), in your
+     own words: "Synapse is wiring up the agent's steps…". Skip lines that repeat the last
+     update.
+  2. Call `alchemist_build` with the `build_id`, `wait` true and `since` set to the
+     result's `live_since`. It returns within about 40 seconds with `live`, the new lines.
+  3. Repeat while `turn_running` is true. Never send a message while a turn runs.
+  4. When it is false, the turn is over: show its card from `open_cards` (section 3), the
+     reply from the last `assistant` entry in `recent` (with its `question`, if any, asked
+     as below), and any `go_live` steps.
 - Show the user `reply`; summarise `earlier` in a line only if it adds something. Summarise `progress` and `plan` in a line or two; do not paste
   them whole.
 - If the user doesn't know which agents they need, or asks what to build, pass that on as
@@ -121,10 +131,10 @@ When a result has a `card`, the build is waiting on the user.
 ## 4. When something goes wrong
 
 - **`finished` is false, or `errors` has `stream_dropped`:** the turn may still be
-  running. Call `alchemist_build` to check before anything else. Never resend the same
-  message blindly; that starts a second turn.
-- **"A turn is still running on this build":** the last turn hasn't ended. Call
-  `alchemist_build` and wait for it; don't send again until `turn_running` is false.
+  running. Follow it with `alchemist_build` and `wait` (section 2) before anything else.
+  Never resend the same message blindly; that starts a second turn.
+- **"A turn is still running on this build":** the last turn hasn't ended. Follow it
+  with `alchemist_build` and `wait`; don't send again until `turn_running` is false.
 - **The user wants to stop:** call `alchemist_stop` with the `build_id`.
 - **A role error:** their role in this organisation cannot build. An owner or admin
   must change it in Noesis.
