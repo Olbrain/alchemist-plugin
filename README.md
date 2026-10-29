@@ -269,7 +269,7 @@ can follow up on.
 | `alchemist` | One builder turn: describe or continue a build |
 | `alchemist_answer` | Send your choice on an approval card |
 | `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, completed, published, archived, idle) and a readable label |
-| `alchemist_build` | One build: its plan, agents, waiting cards and next step |
+| `alchemist_build` | One build: its plan, agents, waiting cards and next step; with `wait`, follows a running turn and says what Alchemist, Cortex and Synapse did |
 | `alchemist_edit_build` | Rename a build, or archive it (and bring it back), with an optional reason |
 | `alchemist_rate_build` | Rate how a build session went (up or down, with an optional comment) |
 | `alchemist_stop` | Stop the turn a build is running |
