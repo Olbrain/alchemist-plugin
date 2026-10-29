@@ -52,7 +52,7 @@ Call `whoami` first.
 - When you start a new build, pass `title`: the agent's purpose in a few plain words, so
   the build is easy to find later.
 - A turn can take several minutes, and your host shows nothing while a call runs. So a
-  call returns after about 20 seconds with `errors` holding `still_running` while the
+  call returns after about 20 seconds with `status` `still_running` (not an error) while the
   turn carries on. Keep the user posted:
   1. Tell them in one short line what it is doing, from `live` (or `progress`), in your
      own words: "Synapse is wiring up the agent's steps…". Skip lines that repeat the last
