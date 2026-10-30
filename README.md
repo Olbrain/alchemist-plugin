@@ -66,7 +66,8 @@ Then run `/mcp`, pick **alchemist** and sign in with your Olbrain account. New t
 Choose **Create account** on the sign-in page.
 
 Claude Code asks before every tool call. To stop it asking each time Claude checks on a
-build, allow the five read-only tools once under `/permissions`:
+build, allow these five tools once under `/permissions` (they read; `alchemist_state` also
+marks the build's news as seen, and Claude shows it to you):
 `mcp__plugin_alchemist_alchemist__whoami`, `mcp__plugin_alchemist_alchemist__alchemist_builds`,
 `mcp__plugin_alchemist_alchemist__alchemist_build`,
 `mcp__plugin_alchemist_alchemist__alchemist_capabilities` and
@@ -199,7 +200,7 @@ a request, with an id you can follow up on.
 | `select_org` | Switch your active organisation (everywhere you are signed in) |
 | `list_members` | Who is in your organisation |
 | `alchemist` | Start a build or add your words to one; on builds Alchemist's own model runs, one builder turn |
-| `alchemist_state` | Where a build stands: its stage, the steps allowed next, waiting cards, budget and news. Read-only |
+| `alchemist_state` | Where a build stands: its stage, the steps allowed next, waiting cards, budget and news. Marks the news it returns as seen |
 | `alchemist_do` | Take one allowed build step (write the brief, build, write tests, run them, raise a card) |
 | `alchemist_answer` | Send your choice on an approval card |
 | `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, inactive, completed, published, archived, idle) and a readable label |
