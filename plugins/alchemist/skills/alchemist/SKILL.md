@@ -32,12 +32,13 @@ Call `whoami` first.
      a new build for that work, and never resend a message while a turn runs. A new
      instruction from the user is fine: it comes back `status` `queued`, and the turn reads
      it at its next step.
-  2. **The same build** (pass its `build_id`): anything more about the agents it is
-     building, and follow-ups after it publishes in this conversation.
-  3. **A new build with `attach_agent_id`**: changing a published agent whose build is
+  2. **A new build with `attach_agent_id`**: changing a published agent whose build is
      not in this conversation, including one built in an earlier conversation or by
      someone else in the organisation. Builds are private to the person who started
-     them; the agent is shared.
+     them; the agent is shared. Find its id by listing the live agents with
+     `alchemist_connect`, and ask the user which one when names repeat.
+  3. **The same build** (pass its `build_id`): anything more about the agents it is
+     building, and follow-ups after it publishes in this conversation.
   4. **A new build** (no `build_id`): a new or unrelated agent. A `build_id` that returns
      "Not found" was archived or isn't theirs (or the organisation changed after
      `select_org`): start a new one too.
@@ -58,7 +59,7 @@ Call `whoami` first.
 - A turn can take several minutes, and your host shows nothing while a call runs. So a
   call returns after about 20 seconds with `status` `still_running` (not an error) while the
   turn carries on. Keep the user posted:
-  1. Tell them in one short line what it is doing, from `live` (or `progress`), in your
+  1. Tell them in one short line what it is doing, from `live`, in your
      own words: "Synapse is wiring up the agent's steps…". Skip lines that repeat the last
      update.
   2. Call `alchemist_build` with the `build_id`, `wait` true and `since` set to the
@@ -86,7 +87,9 @@ Call `whoami` first.
 
 When a result has a `card`, the build is waiting on the user.
 
-- Show the card's `title`, `action_summary` and `body` as text.
+- Show the card's `title`, `action_summary` and `body` as text, and every line of
+  `join.consequences` when present. On a `workflow_test` or `publish_workflow` card, also
+  show every line of `effects`. Don't shorten or merge these lines.
 - Ask the user to choose with your question tool (`AskUserQuestion` in Claude Code):
   one question, the card's `question` word for word, and one option per `response`,
   labelled with its `label` and described by its `means`. Without a `question`, ask
@@ -120,8 +123,10 @@ When a result has a `card`, the build is waiting on the user.
   isn't on, show why and ask again.
 - If the card has `answer_in` instead of `responses`, it needs a browser (connecting
   a channel such as WhatsApp, a phone line or Microsoft Teams, Shopify, tool credentials
-  or keys, a webhook signing secret, or starting the free trial). Give the user the link and wait until they say it is done, then continue the
-  build. A signing secret goes only in that browser card: if the user pastes one into
+  or keys, a webhook signing secret, or starting the free trial). Give the user the link.
+  The page answers the card itself: when they say it is done, read the build with
+  `alchemist_build` (`wait` true) instead of sending a message, and carry on from what it
+  shows. A signing secret goes only in that browser card: if the user pastes one into
   the chat, don't repeat it or pass it on, and tell them to use the card instead.
 - When Alchemist asks for a file id to test a job, the user may give one or skip it.
   To get one, they upload the file themselves, with their access key, as the multipart
@@ -140,14 +145,16 @@ When a result has a `card`, the build is waiting on the user.
   Never resend the same message blindly; that starts a second turn. When the first call
   of a new build fails, retry it with the same `request_id`: `status` `already_started`
   means the build exists, so follow it with `alchemist_build`.
+- **A build read has `error`:** its last turn stopped there (out of credits, an outage, a
+  crash). Show the user its `text`, and resend the message only if they ask.
 - **"A turn is still running on this build":** the last turn hasn't ended (that message
   was already sent, or was a card answer). Follow it with `alchemist_build` and `wait`;
   don't send it again until `turn_running` is false.
 - **The user wants to stop:** call `alchemist_stop` with the `build_id`.
 - **A role error:** their role in this organisation cannot build. An owner or admin
   must change it in Noesis.
-- **"Your Olbrain sign-in has ended":** tell the user to run `/mcp` and reconnect
-  Alchemist.
+- **"Your Olbrain sign-in has ended":** tell the user to sign in to Alchemist again: run
+  `/mcp` in Claude Code, or `codex mcp login alchemist` in Codex.
 - **Out of credits:** when Alchemist says the developer is out of credits, show them the link and stop. Do not retry.
 - **"Alchemist is unavailable right now":** the service is down on Olbrain's side. Tell the
   user in those words. Do not resend the message in a loop, and do not guess at or explain a
@@ -242,7 +249,7 @@ user's answer back and never give it for them. A ticket turn uses credits like a
 ## 9. Other things
 
 - `alchemist_builds` lists the user's own builds, each with a `state` (`running`,
-  `needs_you`, `stale`, `in_progress`, `completed`, `published`, `archived` or `idle`), a
+  `needs_you`, `stale`, `in_progress`, `inactive`, `completed`, `published`, `archived` or `idle`), a
   `rating` once the user has rated it, and a readable `label` (waiting and running first); `alchemist_build` shows one, with any cards still waiting and a
   `next_step`.
 - `alchemist_edit_build` renames a build (`title`) or archives it (`archived` true; false
@@ -253,6 +260,8 @@ user's answer back and never give it for them. A ticket turn uses credits like a
   press them for one.
 - A `stale` build has waited on the user for over two weeks. Say so by its `label`, and ask
   whether to continue it or archive it. Never archive it yourself.
+- An `inactive` build has had nothing happen for over a week. Ask whether it is still
+  wanted before continuing it.
 - **Feedback on the session.** When a build is `completed`, or the user is archiving one,
   you may ask once how it went: one short question with your question tool (good or not
   good, an optional comment in their own words, an optional reason), all skippable. Skip it

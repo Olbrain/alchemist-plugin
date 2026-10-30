@@ -64,6 +64,13 @@ and change it.
 Then run `/mcp`, pick **alchemist** and sign in with your Olbrain account. New to Olbrain?
 Choose **Create account** on the sign-in page.
 
+Claude Code asks before every tool call. To stop it asking each time Claude checks on a
+build, allow the four read-only tools once under `/permissions`:
+`mcp__plugin_alchemist_alchemist__whoami`, `mcp__plugin_alchemist_alchemist__alchemist_builds`,
+`mcp__plugin_alchemist_alchemist__alchemist_build` and
+`mcp__plugin_alchemist_alchemist__alchemist_capabilities`. Leave the rest asking: they
+start turns, answer cards or change your organisation.
+
 ### Codex
 
 ```
@@ -131,12 +138,10 @@ If Claude Code blocks an answer, answer the card on its build page, or allow the
 
 ## Capabilities
 
-A snapshot of what Alchemist builds today. The live list is always one question away: ask
-Claude *"What can Alchemist do?"* and it reads `alchemist_capabilities`.
+Ask Claude *"What can Alchemist do?"* for the full, current list: it reads
+`alchemist_capabilities` live, so it is never out of date.
 
-### Agents
-
-You don't pick a type. Describe the work; Alchemist decides.
+You don't pick a type of agent. Describe the work; Alchemist decides.
 
 | Agent | What it is |
 | --- | --- |
@@ -145,113 +150,13 @@ You don't pick a type. Describe the work; Alchemist decides.
 | **Team of agents** | One front door hands each question to the specialist that owns it, and can start automatic jobs. Customers reach it on website chat or WhatsApp. |
 | **Research agent** | A person asks for a report in Noesis; it researches the sources and emails the report. A scheduled job can run it too. |
 
-### What starts a job
-
-| Trigger | Detail |
-| --- | --- |
-| **Schedule** | In your words and your time zone. Runs can be moved, added, paused, resumed or removed later. |
-| **Webhook** | Another system calls it. See the signed senders below. |
-| **Email** | An email to the job's own address, from 1 to 50 allowed senders (addresses or company domains). |
-| **A team** | The team's front door, when a conversation calls for it, with a daily run limit. |
-| **A new file** | In a Google Drive folder shared with Olbrain, a Google Cloud Storage or Amazon S3 bucket folder Olbrain can read, or a Dropbox folder your organisation connects. OneDrive is coming. |
-
-**Webhook senders**, each with its signature checked: Stripe, Shopify, GitHub, Razorpay,
-Typeform, any [Standard Webhooks](https://www.standardwebhooks.com) sender (Svix-based, such
-as Clerk or Resend), Olbrain's shared secret, or a system holding your organisation's
-access key.
-
-### Channels
-
-| Channel | Connected by |
-| --- | --- |
-| **Website chat** | Alchemist — an embed code for your site, with signed-in visitors supported |
-| **WhatsApp** | Alchemist — an existing number, or a new one added through Meta's own window |
-| **Shopify storefront chat** | Alchemist — a theme app embed |
-| **Phone** | Alchemist — inbound calls to your own Exotel number |
-| **Microsoft Teams** | Alchemist — your organisation's Teams, linked once with a code |
-| **Email, Instagram, Slack, other stores** | You, in Noesis |
-
-### Connectors and tools
-
-Connectors from Olbrain's catalog. *Sign-in* means your organisation signs in once; *key*
-means a key entered on a card, never in the chat.
-
-| Connector | Connect with | What the agent can do |
-| --- | --- | --- |
-| Google Workspace | Sign-in | Sheets, Drive, Docs and Calendar |
-| Google Drive folder | Nothing | Read one folder you share with Olbrain |
-| Notion | Sign-in, or key | Search and read pages and databases; editing stays off unless you turn it on |
-| Linear | Sign-in | Search and read issues and projects; editing stays off unless you turn it on |
-| Calendly | Sign-in | Events, event types and users |
-| Shopify | Sign-in | Products, orders, customers, prices, stock, discounts and refunds |
-| WooCommerce | Sign-in | Products, orders and customers |
-| Cratio CRM | Key | Read and search leads, record qualifying answers, classify outcomes, write handoff summaries |
-| Microsoft Dynamics 365 F&O | Key | Find data entities, read fields and query records |
-| SAP HANA | Key | Read-only SQL queries and schema browsing |
-| Browser automation (India) | Key | Open pages, click, fill in forms, read what's shown; TDS certificate checks on TRACES |
-| Browser recorder | Nothing | Record a person's browser steps for a job to repeat (also from India) |
-
-Beyond the catalog:
-
-- **Any REST API** as a tool — no key, bearer token, basic auth, or an API key in a header
-  or the URL. Keys go to your organisation's vault through a card.
-- **Your own MCP server** on a public https address — no key, bearer token or API key.
-- **A Shopify store's own data** as read-only tools, one store per agent.
-
-### Handing off to a person
-
-A chat agent hands a conversation to a person when its handoff rules match, or when it
-judges one is needed. Your team is told in Slack, by email, or with a ticket in your
-**Zendesk** or **Freshdesk**: public replies on the ticket reach the customer on their
-channel, and the customer's messages are added to the ticket.
-
-### Knowledge
-
-Documents dropped in the chat, or your organisation's files, attached per agent — with a
-check that the agent answers from the right file.
-
-### Quality
-
-- **Setup review** — finds contradictions, gaps, conflicts with knowledge files, broken
-  references and risks, then fixes them.
-- **Tests** — written for the agent, run on the draft and through fix rounds; a fix card
-  shows each failing case.
-- **Tool proof** — each connected tool is called before publishing, to show it really answers.
-- **Live review** — reads a published agent's real conversations (last 1, 7 or 30 days),
-  turns its failures into tests and proves a fix before it goes live.
-
-### Publishing and change
-
-- Publish, and make a new version live after its tests. Owners and admins approve.
-- A 30-day free trial for each new agent.
-- Go-live steps: embed code, API, and SDK pointers for JavaScript and Python.
-- Change a live agent, its email signature and its style.
-- Find two agents doing the same work and merge them.
-- Archive or delete an agent; both can be restored.
-
-### Planning
-
-Not sure what you need? **Cortex**, Olbrain's business analyst, asks about the business,
-suggests agents and writes a requirements document for each. To change an agent you already
-have, name it.
-
-### Support tickets
-
-Raise, list, check, update, close, reopen, escalate and rate your own Olbrain support
-tickets — the same ones Noesis shows.
-
-### Not yet
-
-- Jobs started by a file in SharePoint or a Teams channel library, a Google shared drive, or
-  a bucket other than Google Cloud Storage or Amazon S3.
-- Webhooks signed any other way than the senders listed above.
-- A job inside a team started by an email or a Drive file — it runs beside the team as its
-  own job.
-- MCP servers reachable only inside a company network.
-- In automatic jobs, connectors that need the end customer's own login.
-
-Anything else Alchemist can't build goes to the Olbrain team as a request, with an id you
-can follow up on.
+A job starts on a schedule, a webhook (Stripe, Shopify, GitHub and other signed senders), an
+email, a team's front door, or a new file in a Google Drive, cloud storage bucket, Dropbox or
+OneDrive folder. Agents answer on website chat, WhatsApp, Shopify storefront chat, your phone
+number and Microsoft Teams. They use tools from Olbrain's connector catalog, any REST API or
+your own MCP server, and answer from their knowledge files. Every agent gets a setup review
+and tests before it publishes. Anything Alchemist can't build yet goes to the Olbrain team as
+a request, with an id you can follow up on.
 
 ## Commands and tools
 
@@ -268,7 +173,7 @@ can follow up on.
 | `list_members` | Who is in your organisation |
 | `alchemist` | One builder turn: describe or continue a build |
 | `alchemist_answer` | Send your choice on an approval card |
-| `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, completed, published, archived, idle) and a readable label |
+| `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, inactive, completed, published, archived, idle) and a readable label |
 | `alchemist_build` | One build: its plan, agents, waiting cards and next step; with `wait`, follows a running turn and says what Alchemist, Cortex and Synapse did |
 | `alchemist_edit_build` | Rename a build, or archive it (and bring it back), with an optional reason |
 | `alchemist_rate_build` | Rate how a build session went (up or down, with an optional comment) |
