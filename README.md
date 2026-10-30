@@ -11,7 +11,7 @@
 
 <p align="center">
   Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex or claude.ai.<br>
-  You describe the agent. Alchemist plans it, builds it, tests it — and asks you before anything goes live, unless you let Claude decide.
+  You describe the agent. Claude plans it with Alchemist's guidance; Alchemist builds it, tests it, checks every step — and asks you before anything goes live, unless you let Claude decide.
 </p>
 
 <p align="center">
@@ -35,9 +35,10 @@
 ## What it is
 
 Alchemist is Olbrain's agent builder, available as an MCP server and a Claude Code plugin.
-You tell Claude what the agent should do, in plain words. Alchemist's own model works out
-what kind of agent it is, plans it, builds it in your Olbrain organisation, tests it on real
-inputs and publishes it. Claude carries your decisions back and forth.
+You tell Claude what the agent should do, in plain words. Claude (or Codex) plans and
+designs the agent from your words and your project, with Alchemist's step-by-step guidance.
+Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks each step
+in order, refusing one that is skipped, and publishes it.
 
 Every agent it builds runs on Olbrain and stays visible in
 [Noesis](https://noesis.olbrain.com), Olbrain's console, where your team can open, review
@@ -65,11 +66,14 @@ Then run `/mcp`, pick **alchemist** and sign in with your Olbrain account. New t
 Choose **Create account** on the sign-in page.
 
 Claude Code asks before every tool call. To stop it asking each time Claude checks on a
-build, allow the four read-only tools once under `/permissions`:
+build, allow these five tools once under `/permissions` (they read; `alchemist_state` also
+marks the build's news as seen, and Claude shows it to you):
 `mcp__plugin_alchemist_alchemist__whoami`, `mcp__plugin_alchemist_alchemist__alchemist_builds`,
-`mcp__plugin_alchemist_alchemist__alchemist_build` and
-`mcp__plugin_alchemist_alchemist__alchemist_capabilities`. Leave the rest asking: they
-start turns, answer cards or change your organisation.
+`mcp__plugin_alchemist_alchemist__alchemist_build`,
+`mcp__plugin_alchemist_alchemist__alchemist_capabilities` and
+`mcp__plugin_alchemist_alchemist__alchemist_state`. Leave the rest asking, including
+`alchemist_do` and `alchemist_answer`: they take build steps, answer cards or change your
+organisation.
 
 To see an agent drawn in a pane beside the chat, also install the canvas:
 
@@ -91,7 +95,8 @@ codex mcp login alchemist
 
 Optional: copy `plugins/alchemist/skills/alchemist` to `~/.agents/skills/alchemist` so Codex
 follows the same workflow as Claude, including when to continue a build and when to start a
-new one. Without it, the server's own instructions carry the same rule.
+new one. Without it, the server's own instructions carry the same rule. A copied skill does
+not update itself: copy it again after each release (0.9.0 changes how builds run).
 
 ### claude.ai and Claude Code on the web
 
@@ -103,12 +108,21 @@ under Organization settings → Connectors). Then click **Connect** and sign in.
 
 | Stage | What happens | Your call |
 | --- | --- | --- |
-| `01`&nbsp;Brief | Alchemist restates what you asked for: who the agent serves, what it does, what it must not do. | Approve or change it |
-| `02`&nbsp;Plan | The agents, steps, channels and tools it will build. | Approve or change it |
-| `03`&nbsp;Build | It writes the agent, connects its tools and knowledge, and reviews the setup for gaps and contradictions. | Sign in to tools or add keys when a card asks |
-| `04`&nbsp;Test | It writes tests and runs them on the draft. A job gets a live run on a real input first. | Run the live test, or not yet |
+| `01`&nbsp;Brief | Your coding agent drafts what you asked for (who the agent serves, what it does, what it must not do) from your words and your project; Alchemist checks it. | Approve or change it |
+| `02`&nbsp;Plan | Your coding agent drafts the agents, steps, channels and tools; Alchemist checks it. | Approve or change it |
+| `03`&nbsp;Build | Alchemist builds the agent, connects its tools and knowledge, and reviews the setup for gaps and contradictions. | Sign in to tools or add keys when a card asks |
+| `04`&nbsp;Test | Your coding agent writes the tests; Alchemist checks them, runs them on the draft and grades them. A job gets a live run on a real input first. | Run the live test, or not yet |
 | `05`&nbsp;Publish | The tested version is published, with a 30-day free trial for a new agent. | Publish, or not yet |
 | `06`&nbsp;Go&nbsp;live | Embed code, API and SDK steps, or the channel it answers on. | You run the commands |
+
+Alchemist gives one stage at a time and refuses a step taken out of order. Builds started in
+Noesis, and plugin builds while Olbrain moves accounts over, are still planned by Alchemist's
+own model through the `alchemist` tool; the skill switches by itself.
+
+On a build Claude plans, each agent has a budget: six passes per fix round, a stop after
+three passes in a row without a gain, four failed compiles and 120 draft test runs. When a
+build reaches one, Claude shows the best result so far and asks whether to continue (two
+more passes). A stronger model usually gets a build through its tests first time.
 
 Before Alchemist publishes an agent, makes it live, merges agents or changes how one behaves,
 it stops with an **approval card**. You decide how many of these Claude answers for you:
@@ -116,6 +130,9 @@ tell it in the chat, or put it in your `CLAUDE.md` or `AGENTS.md`, for example *
 plans and tests yourself; ask me before publishing."* If you haven't said, Claude answers
 every card itself in auto mode (Codex: running without approvals) and asks you otherwise.
 It still asks for what only you can do, like sharing a Drive folder or a browser step.
+On a build Claude plans, removing an agent, forgetting a customer, renaming or moving an
+agent, changing a job's email address, and publishing despite failing tests are always
+answered in the browser, from the link Claude gives you.
 If Claude Code blocks an answer, answer the card on its build page, or allow the tool with
 `/permissions`: `mcp__plugin_alchemist_alchemist__alchemist_answer` when installed as the plugin,
 `mcp__claude_ai_Alchemist__alchemist_answer` when added as a claude.ai connector.
@@ -182,7 +199,9 @@ a request, with an id you can follow up on.
 | `create_org` | Create an organisation and make it active |
 | `select_org` | Switch your active organisation (everywhere you are signed in) |
 | `list_members` | Who is in your organisation |
-| `alchemist` | One builder turn: describe or continue a build |
+| `alchemist` | Start a build or add your words to one; on builds Alchemist's own model runs, one builder turn |
+| `alchemist_state` | Where a build stands: its stage, the steps allowed next, waiting cards, budget and news. Marks the news it returns as seen |
+| `alchemist_do` | Take one allowed build step (write the brief, build, write tests, run them, raise a card) |
 | `alchemist_answer` | Send your choice on an approval card |
 | `alchemist_builds` | List your builds, each with a state (running, needs you, stale, in progress, inactive, completed, published, archived, idle) and a readable label |
 | `alchemist_build` | One build: its plan, agents, waiting cards and next step; with `wait`, follows a running turn and says what Alchemist, Cortex and Synapse did |
@@ -204,6 +223,8 @@ Every build can also be opened there.
   your organisation's vault.
 - Nothing goes live, merges or changes behaviour without an approval card you answered.
   Claude Code also asks your permission before sending each answer.
+- Draft test runs, probes and compiles are counted per developer per day, to keep builds
+  within their budget. Pricing does not change.
 - Once an agent is live, its go-live steps call Olbrain's agent API at
   `https://webhook.olbrain.com` with your organisation's API key — to test it, upload a file
   for a job, start a job, or from the server route Claude adds to your app. You run those
