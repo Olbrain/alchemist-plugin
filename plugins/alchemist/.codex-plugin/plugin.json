@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.8.16",
+  "version": "0.9.0",
   "description": "Build, test and publish Olbrain AI agents from Codex, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
@@ -15,7 +15,7 @@
   "interface": {
     "displayName": "Olbrain Alchemist",
     "shortDescription": "Build and publish AI agents",
-    "longDescription": "Alchemist is Olbrain's agent builder. Tell Codex what the agent should do, in plain words. Alchemist's own model works out what kind of agent it is, plans it, builds it in your Olbrain organisation, tests it on real inputs and publishes it, asking you before anything goes live.\n\nIt builds chat agents, automatic jobs (started by a schedule, a webhook, an email or a new file in a watched folder), teams of agents behind one front door, and research agents. It connects website chat, WhatsApp, Shopify storefront chat, your phone number and Microsoft Teams, tools from Olbrain's connector catalog, any REST API or your own MCP server, and the agent's knowledge files.\n\nIt also shows an agent as a diagram, reviews live agents, puts a live agent on your website or behind a server route in your project, and handles your Olbrain support tickets. Every agent runs on Olbrain and stays visible in Noesis, Olbrain's console, where your team can open, review and change it.",
+    "longDescription": "Alchemist is Olbrain's agent builder. Tell Codex what the agent should do, in plain words. Codex plans and designs the agent from your words and your project, with Alchemist's step-by-step guidance; Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks every step in order and publishes it, asking you before anything goes live.\n\nIt builds chat agents, automatic jobs (started by a schedule, a webhook, an email or a new file in a watched folder), teams of agents behind one front door, and research agents. It connects website chat, WhatsApp, Shopify storefront chat, your phone number and Microsoft Teams, tools from Olbrain's connector catalog, any REST API or your own MCP server, and the agent's knowledge files.\n\nIt also shows an agent as a diagram, reviews live agents, puts a live agent on your website or behind a server route in your project, and handles your Olbrain support tickets. Every agent runs on Olbrain and stays visible in Noesis, Olbrain's console, where your team can open, review and change it.",
     "developerName": "Olbrain",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -54,8 +54,20 @@
             {
               "description": "Starts a build and waits for the user on Alchemist's approval cards.",
               "prompt": "Use Alchemist to build a chat agent that answers questions about our opening hours (9am to 6pm, Monday to Saturday) and hands refund requests to a person.",
-              "tools_triggered": "whoami, alchemist, alchemist_answer",
-              "expected_behavior": "Starts a build and shows Alchemist's reply. When Alchemist sends a card, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
+              "tools_triggered": "whoami, alchemist, alchemist_state, alchemist_do, alchemist_answer",
+              "expected_behavior": "Starts a build, reads its state and drafts the brief and plan from the user's words, one allowed step at a time. When a card arrives, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
+            },
+            {
+              "description": "A step taken out of order is refused, and the refusal is followed rather than worked around.",
+              "prompt": "Use Alchemist to build a chat agent for our opening hours, and skip straight to creating the agent without a plan.",
+              "tools_triggered": "alchemist_state, alchemist_do",
+              "expected_behavior": "When alchemist_do refuses the step as out of order, it reads the state again, says the plan has to be approved first, and does the step the state asks for. It does not retry the refused step another way or start a second build."
+            },
+            {
+              "description": "A card to remove an agent is answered in the browser, not in the chat.",
+              "prompt": "Remove our old FAQ agent from Olbrain.",
+              "tools_triggered": "alchemist_state, alchemist_do",
+              "expected_behavior": "Shows the remove card's title and summary and gives the user its browser link to answer it. It does not call alchemist_answer for it, even when told to answer cards itself."
             },
             {
               "description": "Finds earlier builds and reports where the latest one stands.",
@@ -88,7 +100,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "First release for Codex and ChatGPT: build, test and publish Olbrain AI agents (chat agents, automatic jobs, teams of agents and research agents) with Alchemist, asking before anything goes live."
+        "release_notes": "Codex now plans and designs the agent itself, with Alchemist's step-by-step guidance read from alchemist_state and each step sent through alchemist_do; Alchemist builds, tests, checks the order of steps and publishes. Removing an agent, forgetting a customer, renames and publishing despite failing tests are answered in the browser. Builds that Alchemist's own model runs carry on through the alchemist tool."
       }
     }
   }

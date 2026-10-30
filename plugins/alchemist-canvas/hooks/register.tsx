@@ -10,7 +10,9 @@ const canvas = atom({ plugin: 'alchemist-canvas', key: 'canvas' } as const, null
 const shown = atom({ plugin: 'alchemist-canvas', key: 'shown' } as const, null as string | null, { shape: 'shown-1' })
 
 // The plugin's server (mcp__plugin_alchemist_alchemist__…) or the claude.ai connector's (mcp__claude_ai_Alchemist__…).
-const TOOL = /^mcp__(.+)__(alchemist|alchemist_answer|alchemist_build|alchemist_show_agent)$/
+const TOOL = /^mcp__(.+)__(alchemist|alchemist_answer|alchemist_build|alchemist_do|alchemist_state|alchemist_show_agent)$/
+// Results that list the build's waiting cards; the others carry the one card their call raised.
+const LISTS = new Set(['alchemist_build', 'alchemist_state'])
 const DECIDES = new Set(['publish', 'activate', 'publish_workflow', 'publish_team', 'publish_research'])
 const KINDS: Record<string, string> = { workflow: 'job', team: 'team of agents', research: 'research agent' }
 
@@ -64,7 +66,7 @@ export const register: Register = on => {
       const view = isView(out) ? out : await fetchView($, server, { agent_id: args.agent_id, ...(args.version ? { version: args.version } : {}) })
       if (view) next_ = { view }
     } else if (out) {
-      const cards = name === 'alchemist_build' ? out.open_cards : [out.card]
+      const cards = LISTS.has(name) ? out.open_cards : [out.card]
       const card = (Array.isArray(cards) ? cards : []).find(
         (c): c is Obj => isObj(c) && DECIDES.has(String(c.kind)) && typeof c.agent_id === 'string')
       const key = card && String(card.approval_id ?? `${card.kind}:${card.agent_id}`)
