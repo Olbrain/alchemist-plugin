@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Olbrain's plugins for building, testing and publishing AI agents.",
-    "version": "0.8.16"
+    "version": "0.8.17"
   },
   "plugins": [
     {
@@ -15,7 +15,25 @@
       "description": "Build, test and publish Olbrain AI agents from Claude Code, with Olbrain's Alchemist builder.",
       "version": "0.8.16",
       "category": "development",
-      "keywords": ["olbrain", "agents", "alchemist", "mcp"]
+      "keywords": [
+        "olbrain",
+        "agents",
+        "alchemist",
+        "mcp"
+      ]
+    },
+    {
+      "name": "alchemist-canvas",
+      "source": "./plugins/alchemist-canvas",
+      "description": "Draws an Olbrain agent in a pane beside the chat when Claude shows it or a publish or make-live card arrives.",
+      "version": "0.1.0",
+      "category": "development",
+      "keywords": [
+        "olbrain",
+        "agents",
+        "alchemist",
+        "diagram"
+      ]
     }
   ]
 }
