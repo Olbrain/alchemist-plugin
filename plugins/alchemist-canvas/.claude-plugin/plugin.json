@@ -1,0 +1,14 @@
+{
+  "name": "alchemist-canvas",
+  "version": "0.1.0",
+  "description": "Draws an Olbrain agent beside the chat: from alchemist_show_agent, and when a publish or make-live card arrives",
+  "author": {
+    "name": "Olbrain",
+    "url": "https://olbrain.com"
+  },
+  "homepage": "https://github.com/Olbrain/alchemist-plugin",
+  "repository": "https://github.com/Olbrain/alchemist-plugin",
+  "license": "UNLICENSED",
+  "types": "./types/index.d.ts",
+  "icon": "./.claude-plugin/icon.png"
+}

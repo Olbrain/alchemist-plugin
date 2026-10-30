@@ -71,6 +71,17 @@ build, allow the four read-only tools once under `/permissions`:
 `mcp__plugin_alchemist_alchemist__alchemist_capabilities`. Leave the rest asking: they
 start turns, answer cards or change your organisation.
 
+To see an agent drawn in a pane beside the chat, also install the canvas:
+
+```
+/plugin install alchemist-canvas@alchemist
+```
+
+It draws the agent whenever Claude shows it, and redraws it when a publish or make-live
+card arrives, with new, changed and removed parts marked. `/agent-canvas` opens the pane
+when the terminal is too narrow for it to open by itself. It needs a Claude Code build
+with plugin panes; older builds and Codex skip it.
+
 ### Codex
 
 ```
