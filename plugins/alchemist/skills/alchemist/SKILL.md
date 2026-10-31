@@ -88,6 +88,11 @@ answer from the user, in their words, but it returns the state instead of runnin
    yourself.
 10. **Cards.** You raise one with `alchemist_do` (`ask_user`) only when `allowed` lists it, and
     answer it with `alchemist_answer` (section 6), never through `alchemist_do`.
+11. **What the platform can't do.** When something the user needs can't be built (a system it
+    can't reach, a step it can't do), report it yourself with `alchemist_do`
+    (`report_platform_gap`: the requirement in the user's words and what the platform would
+    need). Don't ask first, and never ask the user to raise a ticket for it. Then tell them it
+    went to the Olbrain team, with its `ticket_id`, and carry on with the rest.
 
 ## 5. When Alchemist's own model drives the build
 
@@ -201,7 +206,8 @@ its `view_url` (it opens for 15 minutes).
 
 ## 11. Support tickets
 
-Only when the user asks: raise one, check, add to, escalate, close, reopen or rate it. Pass
+Only when the user asks: raise one, check, add to, escalate, close, reopen or rate it. A
+platform gap you find is not one of these: report it yourself (section 4, item 11). Pass
 their words to `alchemist` (a new build when none is in hand). On a build you drive, then use
 `alchemist_do` with the ticket action `allowed` lists and `user_words` quoting their request
 exactly; there is a small daily limit on new tickets. Before a step that changes a ticket
