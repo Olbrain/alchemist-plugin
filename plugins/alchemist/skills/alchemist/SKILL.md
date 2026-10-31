@@ -43,7 +43,11 @@ Call `whoami` first.
 
 If `alchemist_state` is in your tool list, you drive the build (section 4). If it is missing,
 or `alchemist_state` or `alchemist_do` replies that the build uses `alchemist`, Alchemist's own
-model drives it: use the `alchemist` tool (section 5). A build started in Noesis stays there.
+model drives it: use the `alchemist` tool (section 5). A build Alchemist's model was driving (started
+in Noesis, or before you could drive builds) passes to you when you send it the user's words with
+`alchemist` or answer one of its cards, unless a turn is running on it: follow that turn to its end,
+and your next message takes it over. When a result has `taken_over`, tell the user in a line that you
+drive the build from here, then read `alchemist_state`.
 On a build you drive, `alchemist` still starts the build and records each new request or
 answer from the user, in their words, but it returns the state instead of running a turn.
 
