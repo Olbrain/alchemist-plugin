@@ -153,7 +153,7 @@ When a result has a `card`, or `open_cards` lists one, the build is waiting on t
 - **A build read has `error`:** show its `text`; resend only if the user asks.
 - **Stop:** `alchemist_stop`. **A role error:** an owner or admin changes it in Noesis.
   **Sign-in ended:** `/mcp` (Claude Code) or `codex mcp login alchemist` (Codex).
-  **Out of credits:** show the link and stop. **`approval_not_open`:** read the build.
+  **Out of credits:** show its message (it may say to verify your email) and link, then stop. **`approval_not_open`:** read the build.
 - **"Alchemist is unavailable right now":** say so in those words; don't retry in a loop or
   guess a cause. The build is kept, and `alchemist_builds` finds it later.
 - **The host blocks or cancels `alchemist_answer`:** don't retry or find another way. Read the
