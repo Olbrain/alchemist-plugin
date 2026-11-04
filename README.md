@@ -201,6 +201,51 @@ If Claude Code blocks an answer, answer the card on its build page, or allow the
   <sub>A chat agent's diagram: where it hears from, what it checks, what it consults and how it ends.</sub>
 </p>
 
+## Best practices
+
+Also on [docs.olbrain.com](https://docs.olbrain.com/alchemist#best-practices).
+
+- **Say who it serves and where it stops.** Name who the agent talks to, what it does, what it
+  must never do and when it hands over to a person. Add a few questions real customers ask:
+  they become its tests.
+
+  ```text
+  Use Alchemist to build a chat agent for our website visitors. It answers pricing and
+  delivery questions from our FAQ, never promises discounts, and hands refunds to
+  support@acme.com. Customers often ask: "Do you deliver on Sundays?" and
+  "Can I change my order after paying?"
+  ```
+
+- **Build from your project.** Start Claude Code or Codex in the folder that holds your docs,
+  site or code. Your coding agent drafts the brief, plan and tests from it, and asks you only
+  for what it can't find.
+- **Decide which cards Claude answers.** Put the rule in `CLAUDE.md`, `AGENTS.md` or
+  `GEMINI.md` (see [How a build works](#how-a-build-works)). Removing an agent, forgetting a
+  customer and publishing despite failing tests are always answered in the browser.
+- **Continue a build; don't start another.** Say *"pick up my support agent build"*; a card
+  waiting on you comes first. `still_running` is not an error: don't send the request again.
+  To change a published agent, ask for the change: customers keep the live version until the
+  new one is tested and published.
+- **Ask before ruling something out.** *"Can Alchemist …?"* checks the live capability list.
+  Charts in the chat, PowerPoint, PDF, Word and Excel files, and a job's multi-sheet Excel
+  workbook are built in. What really can't be built yet, Alchemist reports to the Olbrain
+  team itself.
+- **Give a job a real input.** Share one real example of what starts it (a webhook body, an
+  email, a file): its live test runs on it before you publish. Say whether a list is one piece
+  of work or many: a report or workbook from a whole list is one run, each invoice in an email
+  is a run of its own. A job that does nothing with its input fails its test.
+- **Let the tests drive fixes.** Fix what a failing test shows, then test again. Don't start a
+  new build to reset a budget; a stronger model usually gets through first time.
+- **Keep keys out of the chat.** Cards collect keys, passwords and signing secrets in the
+  browser. If one is pasted into the chat, rotate it. Keep your Olbrain Access Key on your
+  server, never in browser code.
+- **Read errors by their code**, not their words ([Error codes](#error-codes)).
+  `service_unavailable` is an outage on Olbrain's side: the build is kept, so wait, then say
+  *"continue"*. `insufficient_credits`: top up, then continue.
+- **Review it once it's live.** *"Review how my support agent did this week"*: Alchemist reads
+  real conversations, groups what went wrong, turns failures into tests and proves a fix on
+  them before you publish it.
+
 ## Capabilities
 
 Ask Claude *"What can Alchemist do?"* for the full, current list: it reads
