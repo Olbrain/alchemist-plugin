@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "alchemist",
+  "version": "0.9.11",
+  "description": "Build, test and publish Olbrain AI agents (chat agents, automatic jobs, teams and research agents) from your coding agent, with Olbrain's Alchemist builder.",
+  "author": {
+    "name": "Olbrain",
+    "url": "https://olbrain.com"
+  },
+  "homepage": "https://github.com/Olbrain/alchemist-plugin",
+  "repository": "https://github.com/Olbrain/alchemist-plugin",
+  "license": "MIT",
+  "keywords": ["olbrain", "agents", "alchemist", "mcp"]
+}

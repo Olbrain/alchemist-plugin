@@ -355,4 +355,4 @@ Olbrain's [privacy policy](https://olbrain.com/privacy.html) and
 
 ## Licence
 
-Copyright Olbrain. All rights reserved.
+This plugin (its skills, commands and manifests) is [MIT licensed](LICENSE). The Alchemist service it connects to at alchemist.olbrain.com is not part of it: using the service is covered by Olbrain's [terms](https://olbrain.com/terms.html).

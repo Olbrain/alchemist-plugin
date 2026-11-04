@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "Build, test and publish Olbrain AI agents from Claude Code, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/Olbrain/alchemist-plugin",
   "repository": "https://github.com/Olbrain/alchemist-plugin",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "icon": "./.claude-plugin/icon.png",
   "privacyPolicyUrl": "https://olbrain.com/privacy.html",
   "documentationUrl": "https://docs.olbrain.com",
