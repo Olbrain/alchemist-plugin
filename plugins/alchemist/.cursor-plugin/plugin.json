@@ -1,0 +1,23 @@
+{
+  "name": "alchemist",
+  "displayName": "Olbrain Alchemist",
+  "version": "0.9.6",
+  "description": "Build, test and publish Olbrain AI agents: chat agents, automatic jobs, teams and research agents, planned in Cursor and checked step by step by Alchemist.",
+  "author": {
+    "name": "Olbrain"
+  },
+  "publisher": "Olbrain",
+  "homepage": "https://github.com/Olbrain/alchemist-plugin",
+  "repository": "https://github.com/Olbrain/alchemist-plugin",
+  "license": "UNLICENSED",
+  "logo": "assets/icon.png",
+  "keywords": ["olbrain", "agents", "alchemist", "mcp"],
+  "category": "integrations",
+  "tags": ["mcp", "agents", "olbrain"],
+  "mcpServers": {
+    "alchemist": {
+      "type": "http",
+      "url": "https://alchemist.olbrain.com/mcp/"
+    }
+  }
+}
