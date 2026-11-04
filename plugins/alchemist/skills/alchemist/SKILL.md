@@ -240,9 +240,14 @@ public, unpublishing, archiving and deleting stay in Studio at https://studio.ol
 To build one end to end, in this order:
 
 1. Agree with the user what it shows and does, and which agents it needs. Each agent is a
-   role: a chat agent is `conversational`, an automatic job is `workflow`.
-2. `alchemist_screen_create` with its `name` reserves it in the active organisation and
-   returns its `app_id`.
+   role: a chat agent is `conversational`, an automatic job is `workflow`. Connecting agents
+   (step 7) needs an owner, super admin or admin of the active organisation: check the
+   user's role with `list_members` first, and if they aren't one, stop before creating
+   anything and say an admin has to connect the agents.
+2. `alchemist_screen_create` reserves it in the active organisation and returns its `app_id`.
+   It takes a `name`, a one-line `tagline`, an `icon` from Noesis's icon set (like
+   `briefcase`) and the `department_id` it sits under (like `sales` or `finance`): agree the
+   department with the user.
 3. Write it in olbrain-noesis-apps (`gh repo clone Olbrain/olbrain-noesis-apps` if it isn't
    here); its README is the contract. `cp -r starter apps/<folder>`; in `app.json` set `"id"`
    to the `app_id`, keep `"host": "screens"`, list the roles in `agent_roles` as
