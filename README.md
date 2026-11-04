@@ -10,13 +10,14 @@
 <p align="center"><code>OLBRAIN · AGENT BUILDER</code></p>
 
 <p align="center">
-  Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex or claude.ai.<br>
+  Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex, Antigravity or claude.ai.<br>
   You describe the agent. Claude plans it with Alchemist's guidance; Alchemist builds it, tests it, checks every step — and asks you before anything goes live, unless you let Claude decide.
 </p>
 
 <p align="center">
   <a href="#install"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-000000?style=flat-square"></a>
   <a href="#codex"><img alt="Codex" src="https://img.shields.io/badge/Codex-MCP-000000?style=flat-square"></a>
+  <a href="#antigravity"><img alt="Antigravity plugin" src="https://img.shields.io/badge/Antigravity-plugin-000000?style=flat-square"></a>
   <a href="#claudeai-and-claude-code-on-the-web"><img alt="claude.ai connector" src="https://img.shields.io/badge/claude.ai-connector-000000?style=flat-square"></a>
   <a href="https://alchemist.olbrain.com/mcp/"><img alt="MCP: streamable HTTP" src="https://img.shields.io/badge/MCP-streamable_HTTP-000000?style=flat-square"></a>
 </p>
@@ -35,7 +36,7 @@
 ## What it is
 
 Alchemist is Olbrain's agent builder, available as an MCP server and a Claude Code plugin.
-You tell Claude what the agent should do, in plain words. Claude (or Codex) plans and
+You tell Claude what the agent should do, in plain words. Claude (or Codex, or Antigravity) plans and
 designs the agent from your words and your project, with Alchemist's step-by-step guidance.
 Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks each step
 in order, refusing one that is skipped, and publishes it.
@@ -98,6 +99,17 @@ follows the same workflow as Claude, including when to continue a build and when
 new one. Without it, the server's own instructions carry the same rule. A copied skill does
 not update itself: copy it again after each release (0.9.0 changes how builds run).
 
+### Antigravity
+
+```
+agy plugin install https://github.com/Olbrain/alchemist-plugin/tree/main/plugins/alchemist
+```
+
+Or in the Antigravity app: **Customizations → Plugins → Install from URL** with the same URL.
+This installs the Alchemist skills and connects the MCP server. Sign in with your Olbrain
+account when Antigravity asks, on the first Alchemist tool call; `/mcp` signs in again later.
+The canvas is Claude Code only.
+
 ### claude.ai and Claude Code on the web
 
 Add a custom connector with the URL `https://alchemist.olbrain.com/mcp/`
@@ -126,9 +138,10 @@ more passes). A stronger model usually gets a build through its tests first time
 
 Before Alchemist publishes an agent, makes it live, merges agents or changes how one behaves,
 it stops with an **approval card**. You decide how many of these Claude answers for you:
-tell it in the chat, or put it in your `CLAUDE.md` or `AGENTS.md`, for example *"Approve
+tell it in the chat, or put it in your `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, for example *"Approve
 plans and tests yourself; ask me before publishing."* If you haven't said, Claude answers
-every card itself in auto mode (Codex: running without approvals) and asks you otherwise.
+every card itself in auto mode (Codex: running without approvals; Antigravity: set to proceed
+without asking) and asks you otherwise.
 It still asks for what only you can do, like sharing a Drive folder or a browser step.
 On a build Claude plans, removing an agent, forgetting a customer, renaming or moving an
 agent, changing a job's email address, and publishing despite failing tests are always
