@@ -253,7 +253,8 @@ To build one end to end, in this order:
 2. `alchemist_screen_create` reserves it in the active organisation and returns its `app_id`.
    It takes a `name`, a one-line `tagline`, an `icon` from Noesis's icon set (like
    `briefcase`) and the `department_id` it sits under (like `sales` or `finance`): agree the
-   department with the user.
+   department with the user. First name the active organisation (`whoami`) and let the user
+   confirm it: a screen can't move to another organisation later.
 3. Write it in olbrain-noesis-apps (`gh repo clone Olbrain/olbrain-noesis-apps` if it isn't
    here); its README is the contract. `cp -r starter apps/<folder>`; in `app.json` set `"id"`
    to the `app_id`, keep `"host": "screens"`, list the roles in `agent_roles` as
@@ -262,10 +263,15 @@ To build one end to end, in this order:
    (`apps/screens_check` is the smallest example). `npm ci` once, then `npm test -- <folder>`.
 4. Build each role's agent with `alchemist` as any build, cards included, and publish it; or
    use an agent the organisation already has. Keep each `agent_id`.
-5. Commit on a branch, push, and open a PR for review: the upload needs the commit's URL.
+5. Commit on a branch, push, and open a PR for review: the upload needs the commit's URL. Merge
+   that PR with a merge commit, not a squash, so the commit each version records stays in
+   main's history.
 6. Upload and publish as below. Publishing v1 of a screen the user asked for is part of the build.
-7. `alchemist_screen_roles` with `{role key: agent_id}` connects them. Finish any role left in
-   `setup_missing`.
+7. `alchemist_screen_roles` with `{role key: agent_id}` connects them, then finish everything
+   left in `setup_missing`. A bare `<role key>` is a required role with no agent yet: connect
+   one. `<role key>:calendly` means that role's agent hasn't signed in to Calendly: add the
+   Calendly connector to that agent with `alchemist` (its card takes the sign-in in the
+   browser), or connect Calendly on the agent in Studio.
 8. Give the user the screen's `url`; only organisations that have the screen see it, which for a
    new one is the active organisation alone.
 
