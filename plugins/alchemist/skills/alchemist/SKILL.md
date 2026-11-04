@@ -153,8 +153,8 @@ When a result has a `card`, or `open_cards` lists one, the build is waiting on t
   with the same `request_id`; `already_started` means it exists.
 - **A build read has `error`:** show its `text`; resend only if the user asks.
 - **Stop:** `alchemist_stop`. **A role error:** an owner or admin changes it in Noesis.
-  **Sign-in ended:** `/mcp` (Claude Code), `codex mcp login alchemist` (Codex) or
-  `/plugin` → alchemist → Sign in (Antigravity).
+  **Sign-in ended:** `/mcp` (Claude Code), `codex mcp login alchemist` (Codex),
+  `/plugin` → alchemist → Sign in (Antigravity) or Customize → alchemist (Cursor).
   **Out of credits:** show its message (it may say to verify your email) and link, then stop. **`approval_not_open`:** read the build.
 - **"Alchemist is unavailable right now":** say so in those words; don't retry in a loop or
   guess a cause. The build is kept, and `alchemist_builds` finds it later.
@@ -203,7 +203,7 @@ If `alchemist_connect` refuses, show its words; "It isn't live yet" means offer 
 ## 10. See an agent
 
 `alchemist_show_agent` with the `agent_id` draws it, read-only: the draft marked against the
-live version, or with `version` one published version. In Claude Code, Codex or Antigravity, give the user
+live version, or with `version` one published version. In Claude Code, Codex, Antigravity or Cursor, give the user
 its `view_url` (it opens for 15 minutes).
 
 ## 11. Support tickets
