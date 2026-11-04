@@ -5,6 +5,13 @@
   "description": "Build, test and publish Olbrain AI agents from Claude Code, Codex, Antigravity, Cursor or Claude.ai.",
   "version": "0.9.7",
   "websiteUrl": "https://olbrain.com/developers/",
+  "icons": [
+    {
+      "src": "https://alchemist.olbrain.com/alchemist-icon-192.png",
+      "mimeType": "image/png",
+      "sizes": ["192x192"]
+    }
+  ],
   "repository": {
     "url": "https://github.com/Olbrain/alchemist-plugin",
     "source": "github"
