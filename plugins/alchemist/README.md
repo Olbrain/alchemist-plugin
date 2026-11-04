@@ -31,6 +31,9 @@ Then try:
 `/alchemist:build <what the agent should do>` starts a build; `/alchemist:status` shows
 your builds and any cards waiting on you.
 
+Read the [best practices](https://docs.olbrain.com/alchemist#best-practices) before your
+first build, and the [error codes](https://docs.olbrain.com/alchemist#errors) if a call fails.
+
 ## Privacy
 
 Tool calls go to `https://alchemist.olbrain.com`, which acts as you in Olbrain. Keys and
