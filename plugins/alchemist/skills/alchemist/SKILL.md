@@ -148,16 +148,22 @@ When a result has a `card`, or `open_cards` lists one, the build is waiting on t
 
 ## 7. When something goes wrong
 
+- **A failed call** returns `error` with a `code`, a `message`, `retryable` and, for an Olbrain
+  failure, a `reference`. Act on the `code`, show the `message`, never match on its words. The
+  codes are listed in the README under Error codes. `invalid_input`: fix the arguments.
+  `not_found`, `conflict`: re-read the build or state. `rate_limited`: wait, then call once more.
+  `internal_error`: give the user the `reference`; don't retry.
 - **`finished` false, `stream_dropped`, or "a turn is still running":** follow the build with
   `alchemist_build` and `wait`; never resend blindly. Retry a failed first call of a new build
   with the same `request_id`; `already_started` means it exists.
 - **A build read has `error`:** show its `text`; resend only if the user asks.
-- **Stop:** `alchemist_stop`. **A role error:** an owner or admin changes it in Noesis.
-  **Sign-in ended:** `/mcp` (Claude Code), `codex mcp login alchemist` (Codex),
+- **Stop:** `alchemist_stop`. **`forbidden` (a role error):** an owner or admin changes it in Noesis.
+  **`session_ended`:** `/mcp` (Claude Code), `codex mcp login alchemist` (Codex),
   `/plugin` → alchemist → Sign in (Antigravity) or Customize → alchemist (Cursor).
-  **Out of credits:** show its message (it may say to verify your email) and link, then stop. **`approval_not_open`:** read the build.
-- **"Alchemist is unavailable right now":** say so in those words; don't retry in a loop or
-  guess a cause. The build is kept, and `alchemist_builds` finds it later.
+  **`insufficient_credits`:** show its message (it may say to verify your email) and link, then stop. **`approval_not_open`:** read the build.
+- **`service_unavailable`, or a step refused with `provider_unavailable`:** tell the user in its
+  message's words; don't retry in a loop or guess a cause. The build is kept, and
+  `alchemist_builds` finds it later.
 - **The host blocks or cancels `alchemist_answer`:** don't retry or find another way. Read the
   build (it may have been applied); if the card still waits, give the user its `noesis_url`.
 
