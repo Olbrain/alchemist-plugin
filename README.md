@@ -252,6 +252,38 @@ a request, with an id you can follow up on.
 Inviting people and joining an organisation happen in [Noesis](https://noesis.olbrain.com).
 Every build can also be opened there.
 
+## Error codes
+
+A failed tool call has `isError` set. Its `structuredContent`, and its text as JSON, is one envelope:
+
+```json
+{"error": {"code": "service_unavailable", "message": "Alchemist is unavailable right now. …", "retryable": true, "reference": "ab12cd34"}}
+```
+
+Branch on `code`. Show `message` to the user. `reference` (on Olbrain failures) finds the call in our logs.
+
+| Code | Meaning | What to do | Retryable |
+| --- | --- | --- | --- |
+| `invalid_input` | An argument is missing or malformed | Fix it; don't resend as is | no |
+| `not_found` | No such build, agent, card or organisation for this user | Re-read the build or list | no |
+| `conflict` | Clashes with the current state (an `op_id` reused, a name taken) | Re-read, then change the call | no |
+| `forbidden` | The user's role doesn't allow it | An owner or admin changes it in Noesis | no |
+| `no_organisation` | No organisation selected | `create_org` or `select_org` | no |
+| `limit_reached` | An account limit (organisations per user) | Tell the user | no |
+| `insufficient_credits` | Out of Alchemist credits | Show the message and its link, then stop | no |
+| `session_ended` | The Olbrain sign-in ended | Sign in to Alchemist again | no |
+| `unauthorized` | No signed-in user on the call | Sign in | no |
+| `unknown_tool` | No tool by that name | Use a listed tool | no |
+| `rate_limited` | Too many calls | Wait, then call once more | yes |
+| `service_unavailable` | Olbrain or its model provider failed; nothing the user did | Tell the user; don't retry in a loop | yes, later |
+| `internal_error` | A bug in Alchemist | Give the user the `reference` | no |
+
+The same names are used inside results that succeed as calls:
+
+- **A build's `errors[]`** (`{code, message}`): `service_unavailable`, `insufficient_credits` (with `topup_url`), `too_many_turns` (three builds already running), `stream_dropped` (follow the build with `alchemist_build`; the turn may still be running), `stream_failed`.
+- **A step's `op`** (`alchemist_do`, `alchemist_answer`): `status` is `done`, `refused` or `busy`. A refusal's `result` is `{ok: false, error, hint}`: `error` is the code and `hint` says what to fix. Retry once after fixing it, never unchanged. `provider_unavailable` means the same as `service_unavailable`.
+- **Statuses, not errors:** `still_running` and `queued` (follow with `alchemist_build` `wait`), `busy` (wait, then send the same call with the same `op_id`), `already_started` (that `request_id` already made the build).
+
 ## Privacy and security
 
 - Every tool call goes to `https://alchemist.olbrain.com`, which acts as you in Olbrain. It
