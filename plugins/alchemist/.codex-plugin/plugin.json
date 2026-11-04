@@ -100,7 +100,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "Codex now plans and designs the agent itself, with Alchemist's step-by-step guidance read from alchemist_state and each step sent through alchemist_do; Alchemist builds, tests, checks the order of steps and publishes. Removing an agent, forgetting a customer, renames and publishing despite failing tests are answered in the browser. Builds that Alchemist's own model runs carry on through the alchemist tool."
+        "release_notes": "Codex now plans and designs the agent itself, with step-by-step guidance from alchemist_state, and sends each step through alchemist_do; Alchemist builds, tests, checks the order of steps and publishes. Codex can take over a build that Alchemist's own model was driving. Removing an agent, forgetting a customer, renames and publishing despite failing tests are answered in the browser. Long turns return while they run, with a progress line every few seconds. Waiting builds are resumed first, builds can be renamed and rated, and a published version of an agent can be shown as a diagram. Platform gaps are reported directly instead of asking the user to raise a ticket."
       }
     }
   }
