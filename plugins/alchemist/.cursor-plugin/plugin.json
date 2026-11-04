@@ -1,7 +1,7 @@
 {
   "name": "alchemist",
   "displayName": "Olbrain Alchemist",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Build, test and publish Olbrain AI agents: chat agents, automatic jobs, teams and research agents, planned in Cursor and checked step by step by Alchemist.",
   "author": {
     "name": "Olbrain"
