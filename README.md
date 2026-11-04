@@ -107,7 +107,8 @@ agy plugin install https://github.com/Olbrain/alchemist-plugin/tree/main/plugins
 
 Or in the Antigravity app: **Customizations → Plugins → Install from URL** with the same URL.
 This installs the Alchemist skills and connects the MCP server. Sign in with your Olbrain
-account when Antigravity asks, on the first Alchemist tool call; `/mcp` signs in again later.
+account when Antigravity asks; if it doesn't, open `/plugin`, expand **alchemist** under
+Installed and choose **Sign in**.
 The canvas is Claude Code only.
 
 ### claude.ai and Claude Code on the web
