@@ -1,8 +1,8 @@
 {
   "name": "alchemist",
   "displayName": "Olbrain Alchemist",
-  "version": "0.9.4",
-  "description": "Build, test and publish Olbrain AI agents from Antigravity, with Olbrain's Alchemist builder.",
+  "version": "0.9.5",
+  "description": "Build, test and publish Olbrain AI agents: chat agents, automatic jobs, teams and research agents, planned in Antigravity and checked step by step by Alchemist.",
   "logo": "assets/icon.png",
   "suggestedPrompts": [
     "Use Alchemist to build an agent that answers questions about our pricing and hands refunds to a person",

@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Build, test and publish Olbrain AI agents from Codex, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "keywords": ["olbrain", "agents", "alchemist", "mcp"],
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
+  "mcpServers": "./.codex-plugin/mcp.json",
   "interface": {
     "displayName": "Olbrain Alchemist",
     "shortDescription": "Build and publish AI agents",
