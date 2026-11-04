@@ -116,11 +116,11 @@ The canvas is Claude Code only.
 
 ### Cursor
 
-A team admin adds this repository in **Dashboard → Plugins & MCPs → Import from Repo**
-(`https://github.com/Olbrain/alchemist-plugin`), then members install **Olbrain Alchemist**
-from **Customize**. To try it alone, copy `plugins/alchemist` to
-`~/.cursor/plugins/local/alchemist` and run **Developer: Reload Window**. Sign in with your
-Olbrain account when Cursor asks, or from the alchemist row in **Customize**.
+Install **Olbrain Alchemist** from the Cursor plugin directory:
+[cursor.directory/plugins/alchemist](https://cursor.directory/plugins/alchemist). Sign in with
+your Olbrain account when Cursor asks, or from the alchemist row in **Customize**.
+A team admin can also add this repository in **Dashboard → Plugins & MCPs → Import from Repo**
+(`https://github.com/Olbrain/alchemist-plugin`).
 The canvas is Claude Code only.
 
 ### GitHub Copilot
