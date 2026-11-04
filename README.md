@@ -10,7 +10,7 @@
 <p align="center"><code>OLBRAIN · AGENT BUILDER</code></p>
 
 <p align="center">
-  Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex, Antigravity, Cursor or claude.ai.<br>
+  Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex, Antigravity, Cursor, GitHub Copilot or claude.ai.<br>
   You describe the agent. Claude plans it with Alchemist's guidance; Alchemist builds it, tests it, checks every step — and asks you before anything goes live, unless you let Claude decide.
 </p>
 
@@ -19,6 +19,7 @@
   <a href="#codex"><img alt="Codex" src="https://img.shields.io/badge/Codex-MCP-000000?style=flat-square"></a>
   <a href="#antigravity"><img alt="Antigravity plugin" src="https://img.shields.io/badge/Antigravity-plugin-000000?style=flat-square"></a>
   <a href="#cursor"><img alt="Cursor plugin" src="https://img.shields.io/badge/Cursor-plugin-000000?style=flat-square"></a>
+  <a href="#github-copilot"><img alt="GitHub Copilot plugin" src="https://img.shields.io/badge/GitHub_Copilot-plugin-000000?style=flat-square"></a>
   <a href="#claudeai-and-claude-code-on-the-web"><img alt="claude.ai connector" src="https://img.shields.io/badge/claude.ai-connector-000000?style=flat-square"></a>
   <a href="https://alchemist.olbrain.com/mcp/"><img alt="MCP: streamable HTTP" src="https://img.shields.io/badge/MCP-streamable_HTTP-000000?style=flat-square"></a>
   <a href="https://mcptry.com/servers/com.olbrain/alchemist"><img alt="mcptry" src="https://mcptry.com/badge/com.olbrain/alchemist"></a>
@@ -120,6 +121,17 @@ A team admin adds this repository in **Dashboard → Plugins & MCPs → Import f
 from **Customize**. To try it alone, copy `plugins/alchemist` to
 `~/.cursor/plugins/local/alchemist` and run **Developer: Reload Window**. Sign in with your
 Olbrain account when Cursor asks, or from the alchemist row in **Customize**.
+The canvas is Claude Code only.
+
+### GitHub Copilot
+
+```
+copilot plugin marketplace add Olbrain/alchemist-plugin
+copilot plugin install alchemist@alchemist
+```
+
+This installs the Alchemist skills and connects the MCP server in Copilot CLI. Ask Copilot to use
+Alchemist and sign in with your Olbrain account when the browser opens.
 The canvas is Claude Code only.
 
 ### claude.ai and Claude Code on the web
