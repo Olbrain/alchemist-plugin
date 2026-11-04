@@ -229,3 +229,23 @@ handles it. Never answer a ticket question for them.
   team reads it; their organisation doesn't.
 - `list_members` shows the organisation; invites happen in https://noesis.olbrain.com, where
   every build is visible at its `noesis_url`.
+
+## 13. Screens (Olbrain staff)
+
+Only verified @olbrain.com accounts have the screen tools; nobody else does. Creating a
+screen, unpublishing, archiving, restoring and making one public happen in Studio at
+https://studio.olbrain.com/screens.
+
+- `alchemist_screens` finds the screen's `id`.
+- In olbrain-noesis-apps, `npm run package -- <folder>` writes `dist/<id>.zip`. Push the
+  build's commit first: the upload needs `https://github.com/Olbrain/<repo>/commit/<sha>`.
+- Upload in three steps: `alchemist_screen_upload` with `app_id`; then
+  `curl -sf -X PUT -H "Content-Type: <content_type>" --data-binary @dist/<id>.zip "<url>"`
+  with `put` from that reply; then `alchemist_screen_upload` again with `upload_id` and
+  `source_commit_url`. The URL is a 30-minute write link: run it, don't show it. An expired
+  upload starts over from the first step.
+- `passed: false` lists every failed check: show them all.
+- `alchemist_screen_publish` only when the user asks; it changes the screen for every
+  organisation that has it, and an older version rolls back. On `needs_confirmation`, show
+  `role_changes` and `installs` in full and resend with `confirm: true` only on the user's own
+  yes, in auto mode too. Then give the user the screen's `url`.
