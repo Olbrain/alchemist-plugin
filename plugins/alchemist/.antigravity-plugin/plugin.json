@@ -1,0 +1,20 @@
+{
+  "name": "alchemist",
+  "displayName": "Olbrain Alchemist",
+  "version": "0.9.4",
+  "description": "Build, test and publish Olbrain AI agents from Antigravity, with Olbrain's Alchemist builder.",
+  "logo": "assets/icon.png",
+  "suggestedPrompts": [
+    "Use Alchemist to build an agent that answers questions about our pricing and hands refunds to a person",
+    "What can Alchemist do?",
+    "Put my support agent on my website"
+  ],
+  "keywords": ["olbrain", "agents", "alchemist", "mcp"],
+  "author": {
+    "name": "Olbrain",
+    "url": "https://olbrain.com"
+  },
+  "homepage": "https://github.com/Olbrain/alchemist-plugin",
+  "repository": "https://github.com/Olbrain/alchemist-plugin",
+  "license": "UNLICENSED"
+}
