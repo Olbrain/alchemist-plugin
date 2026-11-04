@@ -21,6 +21,7 @@
   <a href="#cursor"><img alt="Cursor plugin" src="https://img.shields.io/badge/Cursor-plugin-000000?style=flat-square"></a>
   <a href="#claudeai-and-claude-code-on-the-web"><img alt="claude.ai connector" src="https://img.shields.io/badge/claude.ai-connector-000000?style=flat-square"></a>
   <a href="https://alchemist.olbrain.com/mcp/"><img alt="MCP: streamable HTTP" src="https://img.shields.io/badge/MCP-streamable_HTTP-000000?style=flat-square"></a>
+  <a href="https://mcptry.com/servers/com.olbrain/alchemist"><img alt="mcptry" src="https://mcptry.com/badge/com.olbrain/alchemist"></a>
 </p>
 
 <p align="center">
