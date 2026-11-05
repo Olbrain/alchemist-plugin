@@ -53,20 +53,20 @@
             {
               "description": "Starts a build and waits for the user on Alchemist's approval cards.",
               "prompt": "Use Alchemist to build a chat agent that answers questions about our opening hours (9am to 6pm, Monday to Saturday) and hands refund requests to a person.",
-              "tools_triggered": "whoami, alchemist, alchemist_state, alchemist_do, alchemist_answer",
-              "expected_behavior": "Starts a build, reads its state and drafts the brief and plan from the user's words, one allowed step at a time. When a card arrives, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
+              "tools_triggered": "whoami, alchemist, alchemist_build, alchemist_answer",
+              "expected_behavior": "Starts a build by passing the user's words to alchemist, and follows the build with alchemist_build while Alchemist plans it. When a card arrives, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
             },
             {
-              "description": "A step taken out of order is refused, and the refusal is followed rather than worked around.",
-              "prompt": "Use Alchemist to build a chat agent for our opening hours, and skip straight to creating the agent without a plan.",
-              "tools_triggered": "alchemist_state, alchemist_do",
-              "expected_behavior": "When alchemist_do refuses the step as out of order, it reads the state again, says the plan has to be approved first, and does the step the state asks for. It does not retry the refused step another way or start a second build."
+              "description": "A long turn is followed to the end, never sent twice.",
+              "prompt": "Use Alchemist to build a chat agent for our opening hours, and keep me posted while it works.",
+              "tools_triggered": "alchemist, alchemist_build",
+              "expected_behavior": "When alchemist returns status still_running, it says in a line what Alchemist is doing and calls alchemist_build with wait until the turn has finished, then reports the result or the card waiting. It does not send the request again or start a second build while the turn runs."
             },
             {
-              "description": "A card to remove an agent is answered in the browser, not in the chat.",
+              "description": "Removing an agent waits for the user's own yes on the remove card.",
               "prompt": "Remove our old FAQ agent from Olbrain.",
-              "tools_triggered": "alchemist_state, alchemist_do",
-              "expected_behavior": "Shows the remove card's title and summary and gives the user its browser link to answer it. It does not call alchemist_answer for it, even when told to answer cards itself."
+              "tools_triggered": "alchemist_connect, alchemist, alchemist_build",
+              "expected_behavior": "Finds the agent with alchemist_connect and starts a build on it with alchemist. When the remove card arrives, it shows the card's title, summary and consequences in full and asks its question word for word with each choice. It calls alchemist_answer only after the user answers, and the agent is not removed before the user says yes."
             },
             {
               "description": "Finds earlier builds and reports where the latest one stands.",
