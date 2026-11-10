@@ -169,8 +169,10 @@ every card itself in auto mode (Codex: running without approvals; Antigravity: s
 without asking) and asks you otherwise.
 It still asks for what only you can do, like sharing a Drive folder or a browser step.
 On a build Claude plans, removing an agent, forgetting a customer, renaming or moving an
-agent, changing a job's email address, and publishing despite failing tests are always
-answered in the browser, from the link Claude gives you.
+agent, changing a job's email address, and publishing despite failing tests always need your
+own yes. Claude Code shows the card in its own dialog for you to confirm (type the agent's
+name for anything that can't be undone); other apps give you a link to answer it in the
+browser. If Claude Code gives you a link instead, run `/mcp` and reconnect Alchemist.
 If Claude Code blocks an answer, answer the card on its build page, or allow the tool with
 `/permissions`: `mcp__plugin_alchemist_alchemist__alchemist_answer` when installed as the plugin,
 `mcp__claude_ai_Alchemist__alchemist_answer` when added as a claude.ai connector.
@@ -222,7 +224,8 @@ Also on [docs.olbrain.com](https://docs.olbrain.com/alchemist#best-practices).
   for what it can't find.
 - **Decide which cards Claude answers.** Put the rule in `CLAUDE.md`, `AGENTS.md` or
   `GEMINI.md` (see [How a build works](#how-a-build-works)). Removing an agent, forgetting a
-  customer and publishing despite failing tests are always answered in the browser.
+  customer and publishing despite failing tests always need your own yes: in Claude Code's
+  dialog, or in the browser.
 - **Continue a build; don't start another.** Say *"pick up my support agent build"*; a card
   waiting on you comes first. `still_running` is not an error: don't send the request again.
   To change a published agent, ask for the change: customers keep the live version until the
