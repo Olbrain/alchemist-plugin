@@ -339,8 +339,11 @@ The same names are used inside results that succeed as calls:
   keeps your Olbrain sign-in encrypted so you stay signed in; remove the connection to end it.
 - Keys and passwords for tools never pass through the chat. Approval cards collect them into
   your organisation's vault.
-- Nothing goes live, merges or changes behaviour without an approval card you answered.
-  Claude Code also asks your permission before sending each answer.
+- Nothing goes live, merges or changes behaviour without an approval card. You answer it, or
+  Claude does where you have let it: in auto mode it answers every card unless you tell it
+  otherwise (see [How a build works](#how-a-build-works)). What can't be undone, and
+  publishing despite failing tests, always needs your own yes. Outside auto mode, Claude Code
+  also asks your permission before sending each answer.
 - Draft test runs, probes and compiles are counted per developer per day, to keep builds
   within their budget. Pricing does not change.
 - Once an agent is live, its go-live steps call Olbrain's agent API at
