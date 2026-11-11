@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "Build, test and publish Olbrain AI agents from Codex, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
@@ -15,7 +15,7 @@
   "interface": {
     "displayName": "Olbrain Alchemist",
     "shortDescription": "Build and publish AI agents",
-    "longDescription": "Alchemist is Olbrain's agent builder. Tell Codex what the agent should do, in plain words. Codex plans and designs the agent from your words and your project, with Alchemist's step-by-step guidance; Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks every step in order and publishes it, asking you before anything goes live.\n\nIt builds chat agents, automatic jobs (started by a schedule, a webhook, an email or a new file in a watched folder), teams of agents behind one front door, and research agents. It connects website chat, WhatsApp, Shopify storefront chat, your phone number and Microsoft Teams, tools from Olbrain's connector catalog, any REST API or your own MCP server, and the agent's knowledge files.\n\nIt also shows an agent as a diagram, reviews live agents, puts a live agent on your website or behind a server route in your project, and handles your Olbrain support tickets. Every agent runs on Olbrain and stays visible in Noesis, Olbrain's console, where your team can open, review and change it.",
+    "longDescription": "Alchemist is Olbrain's agent builder. Tell Codex what the agent should do, in plain words. Codex plans and designs the agent from your words and your project, with Alchemist's step-by-step guidance; Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks every step in order and publishes it, asking you before anything goes live unless you let Codex decide.\n\nIt builds chat agents, automatic jobs (started by a schedule, a webhook, an email or a new file in a watched folder), teams of agents behind one front door, and research agents. It connects website chat, WhatsApp, Shopify storefront chat, your phone number and Microsoft Teams, tools from Olbrain's connector catalog, any REST API or your own MCP server, and the agent's knowledge files.\n\nIt also shows an agent as a diagram, reviews live agents, puts a live agent on your website or behind a server route in your project, and handles your Olbrain support tickets. Every agent runs on Olbrain and stays visible in Noesis, Olbrain's console, where your team can open, review and change it.",
     "developerName": "Olbrain",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -54,7 +54,7 @@
               "description": "Starts a build and waits for the user on Alchemist's approval cards.",
               "prompt": "Use Alchemist to build a chat agent that answers questions about our opening hours (9am to 6pm, Monday to Saturday) and hands refund requests to a person.",
               "tools_triggered": "whoami, alchemist, alchemist_build, alchemist_answer",
-              "expected_behavior": "Starts a build by passing the user's words to alchemist, and follows the build with alchemist_build while Alchemist plans it. When a card arrives, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published without a card the user approves."
+              "expected_behavior": "Starts a build by passing the user's words to alchemist, and follows the build with alchemist_build while Alchemist plans it. When a card arrives, such as a plan to approve, it shows the card's title, summary and question with its choices and waits for the user's answer before calling alchemist_answer. Nothing is published before that card is answered."
             },
             {
               "description": "A long turn is followed to the end, never sent twice.",
@@ -99,7 +99,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "Codex now plans and designs the agent itself, with step-by-step guidance from alchemist_state, and sends each step through alchemist_do; Alchemist builds, tests, checks the order of steps and publishes. Codex can take over a build that Alchemist's own model was driving. Removing an agent, forgetting a customer, renames and publishing despite failing tests are answered in the browser. Long turns return while they run, with a progress line every few seconds. Waiting builds are resumed first, builds can be renamed and rated, and a published version of an agent can be shown as a diagram. Platform gaps are reported directly instead of asking the user to raise a ticket. Errors from Alchemist now carry codes the skill acts on, so Codex recovers from a refused step on its own instead of retrying blindly. The plugin is now MIT licensed."
+        "release_notes": "The skill now acts on every error code itself: no organisation selected, an account limit, a sign-in that ended, three builds already running, and a turn that stopped. Before, it pointed at a table it could not read. The status command only reads: it no longer marks a build's news as seen. The build and status commands no longer pre-approve tools, so Codex asks before those calls like any other. The recipe for Olbrain's own staff screens moved out of the main skill into a file read only when it applies, which makes the skill a fifth shorter. The description now says Codex answers approval cards for you only when you let it."
       }
     }
   }
