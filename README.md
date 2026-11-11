@@ -93,15 +93,22 @@ with plugin panes; older builds and Codex skip it.
 
 ### Codex
 
+Install **Olbrain Alchemist** from the OpenAI plugin directory, which serves Codex and ChatGPT:
+[chatgpt.com/plugins/plugin_asdk_app_6ae0b1249a888191ac551144ac1819fb](https://chatgpt.com/plugins/plugin_asdk_app_6ae0b1249a888191ac551144ac1819fb).
+It brings the Alchemist skills and connects the MCP server. Sign in with your Olbrain account
+when asked. The directory can be a release behind this repository while OpenAI reviews one.
+
+Or connect the server by hand:
+
 ```
 codex mcp add alchemist --url https://alchemist.olbrain.com/mcp/
 codex mcp login alchemist
 ```
 
-Optional: copy `plugins/alchemist/skills/alchemist` to `~/.agents/skills/alchemist` so Codex
-follows the same workflow as Claude, including when to continue a build and when to start a
-new one. Without it, the server's own instructions carry the same rule. A copied skill does
-not update itself: copy it again after each release (0.9.0 changes how builds run).
+With the server added by hand, you can copy the `plugins/alchemist/skills/alchemist` folder to
+`~/.agents/skills/alchemist` so Codex follows the same workflow as Claude, including when to
+continue a build and when to start a new one. Without it, the server's own instructions carry
+the same rule. A copied skill does not update itself: copy it again after each release.
 
 ### Antigravity
 
