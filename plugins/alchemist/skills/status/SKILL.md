@@ -2,10 +2,6 @@
 name: status
 description: Show your Olbrain account, active organisation and Alchemist builds, with any cards waiting on you.
 disable-model-invocation: true
-allowed-tools:
-  - mcp__plugin_alchemist_alchemist__whoami
-  - mcp__plugin_alchemist_alchemist__alchemist_builds
-  - mcp__plugin_alchemist_alchemist__alchemist_build
 ---
 
 Show the user where things stand in Alchemist:
