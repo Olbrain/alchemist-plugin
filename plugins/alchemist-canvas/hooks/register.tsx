@@ -5,7 +5,7 @@ import type { Canvas, GraphNode, Item, View } from '../types'
 
 const PANE = 'alchemist-canvas'
 // Change a tag when its value's fields change: it declines what an earlier version stored.
-const canvas = atom({ plugin: 'alchemist-canvas', key: 'canvas' } as const, null as Canvas | null, { shape: 'canvas-1' })
+const canvas = atom({ plugin: 'alchemist-canvas', key: 'canvas' } as const, null as Canvas | null, { shape: 'canvas-2' })
 // The last card drawn, so the build reads that repeat a waiting card fetch its view once.
 const shown = atom({ plugin: 'alchemist-canvas', key: 'shown' } as const, null as string | null, { shape: 'shown-1' })
 
@@ -32,6 +32,10 @@ function data(result: unknown): Obj | null {
     return null
   }
 }
+
+const keyOf = (card: Obj) => String(card.approval_id ?? `${card.kind}:${card.agent_id}`)
+// A result that says nothing final: the answer was refused or held, or its turn still runs.
+const isPending = (out: Obj) => out.turn_running === true || ['still_running', 'refused', 'busy'].includes(String(out.status))
 
 const isView = (v: Obj | null): v is View => !!v && typeof v.agent_id === 'string' && 'supported' in v
 
@@ -66,14 +70,28 @@ export const register: Register = on => {
       const view = isView(out) ? out : await fetchView($, server, { agent_id: args.agent_id, ...(args.version ? { version: args.version } : {}) })
       if (view) next_ = { view }
     } else if (out) {
-      const cards = LISTS.has(name) ? out.open_cards : [out.card]
-      const card = (Array.isArray(cards) ? cards : []).find(
-        (c): c is Obj => isObj(c) && DECIDES.has(String(c.kind)) && typeof c.agent_id === 'string')
-      const key = card && String(card.approval_id ?? `${card.kind}:${card.agent_id}`)
-      if (card && key !== (await read($, shown))) {
-        await update($, shown, () => key)
+      const cards = (LISTS.has(name) ? out.open_cards : [out.card]) as unknown
+      const open = (Array.isArray(cards) ? cards : []).filter(isObj)
+      const card = open.find(c => DECIDES.has(String(c.kind)) && typeof c.agent_id === 'string')
+      const last = await read($, shown)
+      const drawn = await read($, canvas)
+      const build = typeof args.build_id === 'string' ? args.build_id : undefined
+      if (card && keyOf(card) !== last) {
         const view = await fetchView($, server, { agent_id: card.agent_id })
-        if (view) next_ = { view, card: typeof card.title === 'string' ? card.title : undefined }
+        if (view) {
+          const key = keyOf(card) // marked only once drawn, so a failed fetch is tried again
+          await update($, shown, () => key)
+          next_ = { view, card: typeof card.title === 'string' ? card.title : undefined, build }
+        }
+      } else if (!card && drawn?.card && !isPending(out)) {
+        // The card in the pane was answered, here or elsewhere: draw the agent as it now stands.
+        const isGone = name === 'alchemist_answer' ? args.approval_id === last
+          : LISTS.has(name) && build === drawn.build && !open.some(c => keyOf(c) === last)
+        const view = isGone ? await fetchView($, server, { agent_id: drawn.view.agent_id }) : null
+        if (view) {
+          await update($, shown, () => null)
+          next_ = { view }
+        }
       }
     }
     if (next_) {

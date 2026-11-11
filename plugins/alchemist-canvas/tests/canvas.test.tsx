@@ -115,6 +115,82 @@ test('a waiting publish card in alchemist_state draws once, however often the st
   await ui.unmount()
 })
 
+test('a card whose diagram failed to load is tried again on the next read', async ($, on) => {
+  let calls = 0
+  on('ui.open', () => ({ value: { isPlaced: true } }))
+  on('mcp.call', () => ({ value: calls++ === 0
+    ? { content: [{ type: 'text', text: 'unavailable' }], isError: true }
+    : { content: [{ type: 'text', text: 'x' }], isError: false, structuredContent: JOB } }))
+  const build = { id: 'b1', open_cards: [{ approval_id: 'p1', kind: 'publish_workflow', agent_id: 'j1', title: 'Publish v3' }] }
+  on('tool.call', () => ({ result: [{ type: 'text', text: JSON.stringify(build) }] }))
+
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1' })
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1' })
+  expect(calls).toBe(2)
+
+  const ui = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  expect((await ui.find({ type: 'Text', text: /^Card:/ }))?.text).toBe('Card: Publish v3')
+  await ui.unmount()
+})
+
+test('an answered publish card redraws the agent as it now stands, without the card', async ($, on) => {
+  const views = [JOB, { ...JOB, live_version: 3, draft_dirty: false }]
+  let calls = 0
+  on('ui.open', () => ({ value: { isPlaced: true } }))
+  on('mcp.call', () => ({ value: { content: [{ type: 'text', text: 'x' }], isError: false, structuredContent: views[calls++] } }))
+  const build = { id: 'b1', open_cards: [{ approval_id: 'p1', kind: 'publish_workflow', agent_id: 'j1', title: 'Publish v3' }] }
+  const results: unknown[] = [
+    [{ type: 'text', text: JSON.stringify(build) }],
+    // a refused answer leaves the card waiting
+    [{ type: 'text', text: JSON.stringify({ status: 'refused', result: { ok: false, error: 'out_of_order' } }) }],
+    [{ type: 'text', text: JSON.stringify({ status: 'done', result: { ok: true } }) }],
+  ]
+  let i = 0
+  on('tool.call', () => ({ result: results[i++] }))
+
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1' })
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_answer', build_id: 'b1', approval_id: 'p1', response: 'approve' })
+  expect(calls).toBe(1)
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_answer', build_id: 'b1', approval_id: 'p1', response: 'approve' })
+  expect(calls).toBe(2)
+
+  const ui = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  expect(await ui.find({ type: 'Text', text: /^Card:/ })).toBeFalsy()
+  expect((await ui.find({ type: 'Text', text: /job ·/ }))?.text).toBe('job · live v3')
+  await ui.unmount()
+})
+
+test('an answer whose turn still runs redraws when a read of that build shows the card gone', async ($, on) => {
+  const views = [JOB, { ...JOB, live_version: 3, draft_dirty: false }]
+  let calls = 0
+  on('ui.open', () => ({ value: { isPlaced: true } }))
+  on('mcp.call', () => ({ value: { content: [{ type: 'text', text: 'x' }], isError: false, structuredContent: views[calls++] } }))
+  const card = { approval_id: 'p1', kind: 'publish_workflow', agent_id: 'j1', title: 'Publish v3' }
+  const results: unknown[] = [
+    [{ type: 'text', text: JSON.stringify({ id: 'b1', open_cards: [card] }) }],
+    [{ type: 'text', text: JSON.stringify({ status: 'still_running' }) }],
+    [{ type: 'text', text: JSON.stringify({ id: 'b1', turn_running: true, open_cards: [] }) }],
+    // another build's read says nothing about this card
+    [{ type: 'text', text: JSON.stringify({ id: 'b2', open_cards: [] }) }],
+    [{ type: 'text', text: JSON.stringify({ id: 'b1', turn_running: false, open_cards: [] }) }],
+  ]
+  let i = 0
+  on('tool.call', () => ({ result: results[i++] }))
+
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1' })
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_answer', build_id: 'b1', approval_id: 'p1', response: 'approve' })
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1', wait: true })
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b2' })
+  expect(calls).toBe(1)
+  await $.tool.call({ tool: 'mcp__plugin_alchemist_alchemist__alchemist_build', build_id: 'b1', wait: true })
+  expect(calls).toBe(2)
+
+  const ui = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  expect(await ui.find({ type: 'Text', text: /^Card:/ })).toBeFalsy()
+  expect((await ui.find({ type: 'Text', text: /job ·/ }))?.text).toBe('job · live v3')
+  await ui.unmount()
+})
+
 test('alchemist_do and alchemist_state leave the pane alone without a publish card', async ($, on) => {
   const fetched: unknown[] = []
   on('mcp.call', (_, e) => {
