@@ -1,0 +1,572 @@
+{
+ "tools": [
+  {
+   "name": "whoami",
+   "title": "Who am I",
+   "description": "Show who you are signed in as, which Olbrain organisation your agents will be created in, and your Alchemist credits and plan, with the link to subscribe or buy credits.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {}
+   },
+   "annotations": {
+    "title": "Who am I",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "alchemist",
+   "title": "Talk to Alchemist",
+   "description": "Talk to Alchemist, Olbrain's agent builder. It designs, builds, tests and publishes AI agents, teams of agents and automatic jobs in the user's active Olbrain organisation. It can also review how a published agent did with real conversations, turn its failures into tests, and prove a fix before it is published. When the user doesn't know which agents they need, it hands them to Cortex, Olbrain's business analyst, which asks about the business, suggests agents and writes a requirements document for each. `message` is the user's request. `build_id` continues an earlier build; `attach_agent_id` starts a build that changes an existing agent. `title` names a new build in a few plain words. `request_id` is an id you make up for a message that starts a build; if the call fails, retry with the same request_id and you get the build it started (`status` `already_started`), not a second one. One call runs one builder turn; a turn longer than about 20 seconds returns `status` `still_running` (not an error) and carries on. A new message sent while a turn runs is read at its next step (`status` `queued`). Where the user's coding agent runs the build step by step, the call records the message and returns the build's stage and next steps instead of a turn. A result can carry a question for the user (`extras.question`), an approval card waiting on the user (`card`), or the steps to put a published agent to use (`go_live`).",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20000
+     },
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "attach_agent_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+     },
+     "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     }
+    },
+    "required": [
+     "message"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Talk to Alchemist",
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_answer",
+   "title": "Answer an approval card",
+   "description": "Answer an Alchemist approval card with the chosen response. Answering can publish an agent, make it live, merge agents or change their behaviour. `response` must be one of the card's `responses`; `approve` does what the card proposes. `merge` needs `keep`, the agent that stays. Per-item `items` on a fix card go with `approve`. On a website connect_channel card, `approve` takes `origins`, the site addresses the user gave (like https://shop.example). Other inputs a card asks for go in `fields`, and the user's own words in `note`. Returns the next builder turn, or, on a build run step by step, the card's outcome (`op`) and the build's next stage.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "approval_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "response": {
+      "type": "string",
+      "pattern": "^[a-z_]{1,32}$"
+     },
+     "fields": {
+      "type": "object",
+      "maxProperties": 20
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 2000
+     },
+     "keep": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "origins": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+       "type": "string",
+       "minLength": 1,
+       "maxLength": 253
+      }
+     },
+     "items": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "minLength": 1,
+         "maxLength": 128
+        },
+        "handling": {
+         "type": "string",
+         "enum": [
+          "agent",
+          "test",
+          "leave"
+         ]
+        },
+        "note": {
+         "type": "string",
+         "maxLength": 500
+        }
+       },
+       "required": [
+        "id",
+        "handling"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    "required": [
+     "build_id",
+     "approval_id",
+     "response"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Answer an approval card",
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_builds",
+   "title": "List builds",
+   "description": "List your own Alchemist builds in the active organisation (other members' builds are private): each one's id, title, the agents it built, how many cards wait on the user, whether a turn is running, a `state` (running, needs_you, stale, in_progress, inactive, completed, published, archived or idle), its current plan `step`, whether it is rated, and a readable `label` with its age. Running and waiting builds come first, then newest.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "List builds",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_build",
+   "title": "Show a build",
+   "description": "Read one Alchemist build: its plan, the agents it touched, any cards waiting on the user, the last few messages, and why its last turn stopped when it failed (`error`). `agent_urls` opens each agent's page (in Noesis once published: its conversations, channels and billing); `studio_urls` opens it in Studio, where the user edits a draft and publishes it by hand, since Noesis can't publish a draft. With `wait` true while a turn runs, it first waits up to about 50 seconds (less once there is something new, or when the turn ends) and adds `live`: what Alchemist, Cortex and Synapse did since `since`, which is the `live_since` of an earlier result.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "wait": {
+      "type": "boolean"
+     },
+     "since": {
+      "type": "integer",
+      "minimum": 0
+     }
+    },
+    "required": [
+     "build_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Show a build",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_stop",
+   "title": "Stop a build",
+   "description": "Stop the turn an Alchemist build is running. Work done so far is kept.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     }
+    },
+    "required": [
+     "build_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Stop a build",
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "idempotentHint": true,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "select_org",
+   "title": "Switch organisation",
+   "description": "Switch your active Olbrain organisation. Alchemist builds in the active one. This switches it everywhere you are signed in, including open Studio and Noesis tabs. `org_id` is the id of an organisation you belong to.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "org_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     }
+    },
+    "required": [
+     "org_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Switch organisation",
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "create_org",
+   "title": "Create an organisation",
+   "description": "Create a new Olbrain organisation owned by you, and make it your active one so Alchemist builds there. This switches the active organisation everywhere you are signed in, including open Studio and Noesis tabs.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 500
+     },
+     "organization_size": {
+      "type": "string",
+      "enum": [
+       "solo",
+       "small",
+       "medium",
+       "large",
+       "enterprise"
+      ]
+     },
+     "industry": {
+      "type": "string",
+      "maxLength": 100
+     },
+     "website": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 255
+     }
+    },
+    "required": [
+     "name"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Create an organisation",
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "idempotentHint": false,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "list_members",
+   "title": "List members",
+   "description": "List the members of your active Olbrain organisation and their roles. Inviting someone and joining an organisation happen in Noesis (https://noesis.olbrain.com). Names and emails here are typed by those people.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "List members",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "alchemist_connect",
+   "title": "Connect a live agent",
+   "description": "Put a live Olbrain agent on the user's website, or call it from their code: no build, no credits. Without `agent_id`, lists the organisation's live chat agents and jobs. With `agent_id`, returns its go-live `steps` (API key, curl, SDK code, a job's webhook call, and a chat agent's website chat snippet once it is on). `origins`, the site addresses the user gave (https://shop.example, or http://localhost:3000 to try it first), switches a chat agent's website chat on for them; sites are only ever added.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "agent_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "origins": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+       "type": "string",
+       "minLength": 1,
+       "maxLength": 253
+      }
+     }
+    },
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Connect a live agent",
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_capabilities",
+   "title": "What Alchemist can do",
+   "description": "The full, current list of what Alchemist can build and do: agent types (chat agents, automatic jobs, teams, research agents), what starts a job, the channels it connects, the connector catalog and custom tools, knowledge, testing and review, publishing, support tickets, and what it can't do yet. No build, no credits.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "What Alchemist can do",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_show_agent",
+   "title": "Show an agent",
+   "description": "Shows one Olbrain agent as a read-only diagram. A chat agent is drawn as how it handles a message: the channels it hears from, its guardrails, what it consults (knowledge, tools, skills) and how a conversation ends (a reply, saved data or a hand-off). An automatic job, a team of agents or a research agent is drawn as its steps, members or sources in order, with their branches. Items added or changed since the live version are marked, and steps or tools that change data outside Olbrain are marked as writes. With a version, that published version is drawn instead of the draft, marked against the version before it. Returns the same view as text too, and a view_url that opens the diagram in a browser for 15 minutes.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "agent_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "version": {
+      "type": "integer",
+      "minimum": 1
+     }
+    },
+    "required": [
+     "agent_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Show an agent",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "openWorldHint": false
+   },
+   "_meta": {
+    "ui": {
+     "resourceUri": "ui://alchemist/agent-flow"
+    }
+   }
+  },
+  {
+   "name": "alchemist_edit_build",
+   "title": "Rename or archive a build",
+   "description": "Rename one of your own Alchemist builds (`title`, a few plain words), archive it (`archived` true) or bring an archived one back (`archived` false). Archiving hides the build from your build list and can be undone; no agent is changed. `reason` (why it is being archived) goes with `archived` true.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+     },
+     "archived": {
+      "type": "boolean"
+     },
+     "reason": {
+      "type": "string",
+      "enum": [
+       "wrong_result",
+       "too_slow",
+       "confusing",
+       "not_needed",
+       "duplicate",
+       "other"
+      ]
+     }
+    },
+    "required": [
+     "build_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Rename or archive a build",
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "idempotentHint": true,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_rate_build",
+   "title": "Rate a build",
+   "description": "Record the user's feedback on an Alchemist build session: `rating` up or down, an optional `comment` in their own words, and optional `reasons`. Rating again replaces the earlier rating. Only the user's own builds. The user's Olbrain team reads it; it is not shown to the rest of their organisation.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "rating": {
+      "type": "string",
+      "enum": [
+       "up",
+       "down"
+      ]
+     },
+     "comment": {
+      "type": "string",
+      "maxLength": 1000
+     },
+     "reasons": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+       "type": "string",
+       "enum": [
+        "wrong_result",
+        "too_slow",
+        "confusing",
+        "not_needed",
+        "duplicate",
+        "other"
+       ]
+      }
+     }
+    },
+    "required": [
+     "build_id",
+     "rating"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Rate a build",
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "idempotentHint": true,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_state",
+   "title": "Read a build's next steps",
+   "description": "Read where an Alchemist build is, for a build the user's coding agent runs step by step: its `stage` with that stage's instructions and checklist, the steps `allowed` now (each with its input schema) and those `blocked` with the reason, open cards, the plan, the brief, the agents, what is left of its `budget`, the result of the last step (`last_op`), and the `inbox`: card outcomes, messages the user typed in Noesis and support ticket news since the last read (a read empties it). `topics` adds the instructions for topics the stage instructions list under More topics.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "topics": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "knowledge",
+        "tickets",
+        "names",
+        "overlaps",
+        "remove_forget",
+        "connect_tools",
+        "shopify",
+        "job_email",
+        "job_folder"
+       ]
+      },
+      "maxItems": 9,
+      "uniqueItems": true
+     }
+    },
+    "required": [
+     "build_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Read a build's next steps",
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "openWorldHint": true
+   }
+  },
+  {
+   "name": "alchemist_do",
+   "title": "Run a build step",
+   "description": "Run one step on an Alchemist build that the user's coding agent runs step by step: `tool` is a step its stage allows, `args` that step's input. `op_id` is an id you make up for this step: sending the same op_id with the same args again returns the first result instead of running it twice. `user_words` quotes the user's own words when the step acts on what they said, such as a support ticket or a lesson for an agent. Steps can build, test and change agents and raise tickets. A step out of order comes back refused with what to do first. A step longer than about 20 seconds returns `status` `still_running` (not an error) and carries on; its result is then the build's `last_op`.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "build_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "tool": {
+      "type": "string",
+      "pattern": "^[a-z_]{1,64}$"
+     },
+     "args": {
+      "type": "object",
+      "maxProperties": 50
+     },
+     "op_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+     },
+     "user_words": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+     }
+    },
+    "required": [
+     "build_id",
+     "tool",
+     "op_id"
+    ],
+    "additionalProperties": false
+   },
+   "annotations": {
+    "title": "Run a build step",
+    "readOnlyHint": false,
+    "destructiveHint": true,
+    "openWorldHint": true
+   }
+  }
+ ]
+}
