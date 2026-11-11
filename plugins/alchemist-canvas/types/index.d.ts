@@ -49,8 +49,8 @@ export type View = {
   view_url?: string
 }
 
-/** What the pane draws: the view, and the card that asked for it. */
-export type Canvas = { view: View; card?: string }
+/** What the pane draws: the view, and the card that asked for it with the build it waits in. */
+export type Canvas = { view: View; card?: string; build?: string }
 
 declare module 'claude-code' {
   interface PluginState {

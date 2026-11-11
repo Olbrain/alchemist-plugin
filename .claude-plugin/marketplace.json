@@ -26,7 +26,7 @@
       "name": "alchemist-canvas",
       "source": "./plugins/alchemist-canvas",
       "description": "Draws an Olbrain agent in a pane beside the chat when Claude shows it or a publish or make-live card arrives.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "development",
       "keywords": [
         "olbrain",
