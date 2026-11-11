@@ -1,7 +1,7 @@
 {
   "name": "alchemist",
   "displayName": "Olbrain Alchemist",
-  "version": "0.9.12",
+  "version": "0.9.14",
   "description": "Build, test and publish Olbrain AI agents: chat agents, automatic jobs, teams and research agents, planned in Antigravity and checked step by step by Alchemist.",
   "logo": "assets/icon.png",
   "suggestedPrompts": [

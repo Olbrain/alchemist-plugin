@@ -4,7 +4,8 @@ Build, test and publish [Olbrain](https://olbrain.com) AI agents from your codin
 You describe the agent in plain words. Your coding agent plans it from your words and your
 project, with Alchemist's step-by-step guidance; Alchemist builds it in your Olbrain
 organisation, tests it on real inputs, checks every step in order and publishes it. It asks
-you, with an approval card, before anything goes live.
+you, with an approval card, before anything goes live, unless you let your coding agent
+decide.
 
 ## What it builds
 
