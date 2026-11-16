@@ -40,6 +40,12 @@
   <a href="https://docs.olbrain.com">Docs</a>
 </p>
 
+<p align="center">
+  <img src="assets/demo.gif" alt="A real Claude Code session, sped up: the user asks for a website support agent; Claude reads the project, Alchemist asks to approve the brief and the plan, builds and tests the agent, asks before publishing, and the agent answers on the website chat and appears as a diagram" width="880">
+  <br>
+  <sub>A real session, sped up: from one sentence to a tested support agent live on a website.</sub>
+</p>
+
 ---
 
 ## Quick start
