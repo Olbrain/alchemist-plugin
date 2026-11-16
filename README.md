@@ -148,6 +148,8 @@ Add a custom connector with the URL `https://alchemist.olbrain.com/mcp/`
 (Customize → Connectors → Add custom connector; on Team and Enterprise plans an owner adds it
 under Organization settings → Connectors). Then click **Connect** and sign in.
 
+If Alchemist saves you time, a ⭐ on this repo helps other people find it.
+
 ## How a build works
 
 | Stage | What happens | Your call |
