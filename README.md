@@ -10,11 +10,14 @@
 <p align="center"><code>OLBRAIN · AGENT BUILDER</code></p>
 
 <p align="center">
-  Build, test and publish <a href="https://olbrain.com">Olbrain</a> AI agents from Claude Code, Codex, Antigravity, Cursor, GitHub Copilot or claude.ai.<br>
-  You describe the agent. Claude plans it with Alchemist's guidance; Alchemist builds it, tests it, checks every step — and asks you before anything goes live, unless you let Claude decide.
+  <b>Describe an AI agent in plain words. Your coding agent builds it, tests it and puts it live.</b><br>
+  Chat agents, automatic jobs and teams of agents on website chat, WhatsApp, Shopify, Microsoft Teams and your phone number,
+  built from Claude Code, Codex, Cursor, Antigravity, GitHub Copilot or claude.ai.
 </p>
 
 <p align="center">
+  <a href="https://github.com/Olbrain/alchemist-plugin/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Olbrain/alchemist-plugin?style=flat-square&label=%E2%AD%90%20stars&color=000000"></a>
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-000000?style=flat-square"></a>
   <a href="#install"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-000000?style=flat-square"></a>
   <a href="#codex"><img alt="Codex" src="https://img.shields.io/badge/Codex-MCP-000000?style=flat-square"></a>
   <a href="#antigravity"><img alt="Antigravity plugin" src="https://img.shields.io/badge/Antigravity-plugin-000000?style=flat-square"></a>
@@ -27,6 +30,8 @@
 </p>
 
 <p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#why-alchemist">Why</a> ·
   <a href="#install">Install</a> ·
   <a href="#how-a-build-works">How a build works</a> ·
   <a href="#capabilities">Capabilities</a> ·
@@ -35,19 +40,51 @@
   <a href="https://docs.olbrain.com">Docs</a>
 </p>
 
+<p align="center">
+  <img src="assets/demo.gif" alt="A real Claude Code session, sped up: the user asks for a website support agent; Claude reads the project, Alchemist asks to approve the brief and the plan, builds and tests the agent, asks before publishing, and the agent answers on the website chat and appears as a diagram" width="880">
+  <br>
+  <sub>A real session, sped up: from one sentence to a tested support agent live on a website.</sub>
+</p>
+
 ---
 
-## What it is
+## Quick start
 
-Alchemist is Olbrain's agent builder, available as an MCP server and a Claude Code plugin.
-You tell Claude what the agent should do, in plain words. Claude (or Codex, Antigravity or Cursor) plans and
-designs the agent from your words and your project, with Alchemist's step-by-step guidance.
-Alchemist builds it in your Olbrain organisation, tests it on real inputs, checks each step
-in order, refusing one that is skipped, and publishes it.
+In Claude Code:
 
-Every agent it builds runs on Olbrain and stays visible in
-[Noesis](https://noesis.olbrain.com), Olbrain's console, where your team can open, review
-and change it.
+```
+/plugin marketplace add Olbrain/alchemist-plugin
+/plugin install alchemist@alchemist
+```
+
+Run `/mcp`, pick **alchemist** and sign in (new to Olbrain? choose **Create account**). Then ask:
+
+```text
+Use Alchemist to build a chat agent for our website that answers pricing questions
+from our FAQ and hands refunds to support@acme.com.
+```
+
+Other apps: [Codex](#codex) · [Cursor](#cursor) · [Antigravity](#antigravity) ·
+[GitHub Copilot](#github-copilot) · [claude.ai](#claudeai-and-claude-code-on-the-web)
+
+## Why Alchemist
+
+- **Real agents, not demos.** Chat agents, jobs that run on a schedule, a webhook, an email or
+  a new file, and teams of agents that hand each question to the right specialist. They answer
+  on website chat, WhatsApp, Shopify storefront chat, Microsoft Teams and your phone number.
+- **Built from your project.** Start your coding agent in the folder with your docs, site or
+  code. It drafts the brief, plan and tests from what's there and asks only for what it can't find.
+- **Tested before they ship.** Your coding agent writes the tests; Alchemist runs them on the
+  draft and grades them. A job gets a live run on a real input before it publishes.
+- **Checked at every step.** Brief, plan, build, test, publish: Alchemist hands out one stage
+  at a time and refuses a step taken out of order.
+- **You stay in charge.** Nothing goes live without an approval card. You decide which cards
+  Claude answers for you; anything that can't be undone always needs your own yes.
+- **Open plugin.** The skills, commands and the [agent canvas](#claude-code) in this repo are
+  MIT licensed: read them, copy them, improve them.
+
+Every agent runs on Olbrain and stays visible in [Noesis](https://noesis.olbrain.com),
+Olbrain's console, where your team can open, review and change it.
 
 <p align="center">
   <picture>
@@ -70,6 +107,9 @@ and change it.
 Then run `/mcp`, pick **alchemist** and sign in with your Olbrain account. New to Olbrain?
 Choose **Create account** on the sign-in page.
 
+<details>
+<summary>Stop Claude Code asking each time it checks on a build</summary>
+
 Claude Code asks before every tool call. To stop it asking each time Claude checks on a
 build, allow these five tools once under `/permissions` (they read; `alchemist_state` also
 marks the build's news as seen, and Claude shows it to you):
@@ -79,6 +119,8 @@ marks the build's news as seen, and Claude shows it to you):
 `mcp__plugin_alchemist_alchemist__alchemist_state`. Leave the rest asking, including
 `alchemist_do` and `alchemist_answer`: they take build steps, answer cards or change your
 organisation.
+
+</details>
 
 To see an agent drawn in a pane beside the chat, also install the canvas:
 
@@ -147,6 +189,9 @@ The canvas is Claude Code only.
 Add a custom connector with the URL `https://alchemist.olbrain.com/mcp/`
 (Customize → Connectors → Add custom connector; on Team and Enterprise plans an owner adds it
 under Organization settings → Connectors). Then click **Connect** and sign in.
+
+> If Alchemist saves you time, [a ⭐ on this repo](https://github.com/Olbrain/alchemist-plugin/stargazers)
+> helps other people find it.
 
 ## How a build works
 
@@ -281,6 +326,9 @@ a request, with an id you can follow up on.
 
 ## Commands and tools
 
+<details>
+<summary>2 slash commands and 16 MCP tools</summary>
+
 | Command | What it does |
 | --- | --- |
 | `/alchemist:build <description>` | Start a build |
@@ -308,7 +356,12 @@ a request, with an id you can follow up on.
 Inviting people and joining an organisation happen in [Noesis](https://noesis.olbrain.com).
 Every build can also be opened there.
 
+</details>
+
 ## Error codes
+
+<details>
+<summary>For anyone calling the MCP server from their own client</summary>
 
 A failed tool call has `isError` set. Its `structuredContent`, and its text as JSON, is one envelope:
 
@@ -340,6 +393,8 @@ The same names are used inside results that succeed as calls:
 - **A step's `op`** (`alchemist_do`, `alchemist_answer`): `status` is `done`, `refused` or `busy`. A refusal's `result` is `{ok: false, error, hint}`: `error` is the code and `hint` says what to fix. Retry once after fixing it, never unchanged. `provider_unavailable` means the same as `service_unavailable`.
 - **Statuses, not errors:** `still_running` and `queued` (follow with `alchemist_build` `wait`), `busy` (wait, then send the same call with the same `op_id`), `already_started` (that `request_id` already made the build).
 
+</details>
+
 ## Privacy and security
 
 - Every tool call goes to `https://alchemist.olbrain.com`, which acts as you in Olbrain. It
@@ -360,6 +415,15 @@ The same names are used inside results that succeed as calls:
 
 Olbrain's [privacy policy](https://olbrain.com/privacy.html) and
 [terms](https://olbrain.com/terms.html).
+
+## Contributing
+
+Found a bug, or asked for an agent Alchemist couldn't build?
+[Open an issue](https://github.com/Olbrain/alchemist-plugin/issues). Pull requests to the
+skills, commands and canvas are welcome; `python3 scripts/check_manifests.py` must pass.
+
+If this plugin is useful to you, [star the repo](https://github.com/Olbrain/alchemist-plugin/stargazers):
+it's how other developers find it.
 
 ## Links
 
