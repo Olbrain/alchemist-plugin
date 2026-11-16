@@ -390,7 +390,7 @@ Branch on `code`. Show `message` to the user. `reference` (on Olbrain failures) 
 The same names are used inside results that succeed as calls:
 
 - **A build's `errors[]`** (`{code, message}`): `service_unavailable`, `insufficient_credits` (with `topup_url`), `too_many_turns` (three builds already running), `stream_dropped` (follow the build with `alchemist_build`; the turn may still be running), `stream_failed`.
-- **A step's `op`** (`alchemist_do`, `alchemist_answer`): `status` is `done`, `refused` or `busy`. A refusal's `result` is `{ok: false, error, hint}`: `error` is the code and `hint` says what to fix. Retry once after fixing it, never unchanged. `provider_unavailable` means the same as `service_unavailable`.
+- **A step's `op`** (`alchemist_do`, `alchemist_answer`): `status` is `done`, `refused` or `busy`. A refused step was never run: `reason` is the code and `fix` says what to do first. A step that ran but failed is `done` with a `result` of `{ok: false, error, hint}`: `error` is the code and `hint` says what to fix. Either way, retry once after fixing it, never unchanged. `provider_unavailable` means the same as `service_unavailable`.
 - **Statuses, not errors:** `still_running` and `queued` (follow with `alchemist_build` `wait`), `busy` (wait, then send the same call with the same `op_id`), `already_started` (that `request_id` already made the build).
 
 </details>
