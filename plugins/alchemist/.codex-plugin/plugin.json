@@ -31,14 +31,7 @@
     "brandColor": "#111111",
     "brandColorDark": "#EEEEEE",
     "composerIcon": "./.claude-plugin/icon.png",
-    "logo": "./.claude-plugin/icon.png",
-    "screenshots": [
-      "./assets/listing-1-describe.webp",
-      "./assets/listing-2-tests.webp",
-      "./assets/listing-3-approve.webp",
-      "./assets/listing-4-website.webp",
-      "./assets/listing-5-diagram.webp"
-    ]
+    "logo": "./.claude-plugin/icon.png"
   },
   "extensions": {
     "com.openai": {
@@ -106,7 +99,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "Listing only, no change to skills or tools. The description now leads with what you get and says what happens on first use: a free Olbrain account, with 300 free Alchemist credits once your email is verified. New starter prompts for people trying it for the first time, five screenshots from a real recorded session, and the category is now Productivity."
+        "release_notes": "Listing only, no change to skills or tools. The description now leads with what you get and says what happens on first use: a free Olbrain account, with 300 free Alchemist credits once your email is verified. New starter prompts for people trying it for the first time, and the category is now Productivity."
       }
     }
   }
