@@ -162,6 +162,10 @@ Or in the Antigravity app: **Customizations → Plugins → Install from URL** w
 This installs the Alchemist skills and connects the MCP server. Sign in with your Olbrain
 account when Antigravity asks; if it doesn't, open `/plugin`, expand **alchemist** under
 Installed and choose **Sign in**.
+For headless runs (`agy -p`), allow Alchemist's tools under `permissions.allow` in
+`~/.gemini/antigravity-cli/settings.json`. Antigravity names the server `alchemist_alchemist`, so
+the rules read `mcp(alchemist_alchemist/alchemist_state)`, and the same for `alchemist`,
+`alchemist_do` and `alchemist_build`. Leave out `alchemist_answer` so approval cards wait for you.
 The canvas is Claude Code only.
 
 ### Cursor
