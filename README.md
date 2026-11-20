@@ -166,6 +166,7 @@ For headless runs (`agy -p`), allow Alchemist's tools under `permissions.allow` 
 `~/.gemini/antigravity-cli/settings.json`. Antigravity names the server `alchemist_alchemist`, so
 the rules read `mcp(alchemist_alchemist/alchemist_state)`, and the same for `alchemist`,
 `alchemist_do` and `alchemist_build`. Leave out `alchemist_answer` so approval cards wait for you.
+Walkthrough with a real session: [Build a customer-facing AI agent from Google Antigravity](https://olbrain.com/blog/build-a-customer-facing-ai-agent-from-google-antigravity/).
 The canvas is Claude Code only.
 
 ### Cursor
