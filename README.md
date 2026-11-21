@@ -27,6 +27,7 @@
   <a href="https://alchemist.olbrain.com/mcp/"><img alt="MCP: streamable HTTP" src="https://img.shields.io/badge/MCP-streamable_HTTP-000000?style=flat-square"></a>
   <a href="https://mcptry.com/servers/com.olbrain/alchemist"><img alt="mcptry" src="https://mcptry.com/badge/com.olbrain/alchemist"></a>
   <a href="https://mcprush.com/to/olbrain-alchemist-mcp?ref=badge"><img alt="MCPRush" src="https://mcprush.com/badge/olbrain-alchemist-mcp/compact.svg"></a>
+  <a href="https://www.tensorblock.co/mcp/servers/github-olbrain-alchemist-plugin-c696d974"><img alt="Indexed on TensorBlock MCP Index" src="https://mcp-index.tensorblock.co/v1/servers/github-olbrain-alchemist-plugin-c696d974/badge.svg"></a>
 </p>
 
 <p align="center">
