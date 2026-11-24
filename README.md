@@ -224,11 +224,12 @@ it stops with an **approval card**. You decide how many of these Claude answers 
 tell it in the chat, or put it in your `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, for example *"Approve
 plans and tests yourself; ask me before publishing."* If you haven't said, Claude answers
 every card itself in auto mode (Codex: running without approvals; Antigravity: set to proceed
-without asking) and asks you otherwise.
+without asking) and asks you otherwise. A yes to publishing or making a version live is always
+yours.
 It still asks for what only you can do, like sharing a Drive folder or a browser step.
-On a build Claude plans, removing an agent, forgetting a customer, renaming or moving an
-agent, changing a job's email address, and publishing despite failing tests always need your
-own yes. Claude Code shows the card in its own dialog for you to confirm (type the agent's
+On a build Claude plans, anything that reaches your customers (publishing, making a version
+live, ending a trial, a lesson, a schedule change), removing an agent, forgetting a customer,
+renaming or moving an agent, and changing a job's email address always need your own yes. Claude Code shows the card in its own dialog for you to confirm (type the agent's
 name for anything that can't be undone); other apps give you a link to answer it in the
 browser. If Claude Code gives you a link instead, run `/mcp` and reconnect Alchemist.
 If Claude Code blocks an answer, answer the card on its build page, or allow the tool with
@@ -408,10 +409,12 @@ The same names are used inside results that succeed as calls:
 - Keys and passwords for tools never pass through the chat. Approval cards collect them into
   your organisation's vault.
 - Nothing goes live, merges or changes behaviour without an approval card. You answer it, or
-  Claude does where you have let it: in auto mode it answers every card unless you tell it
-  otherwise (see [How a build works](#how-a-build-works)). What can't be undone, and
-  publishing despite failing tests, always needs your own yes. Outside auto mode, Claude Code
-  also asks your permission before sending each answer.
+  Claude does where you have let it: in auto mode it answers cards unless you tell it
+  otherwise (see [How a build works](#how-a-build-works)). Publishing, making a version live
+  and what can't be undone always need your own yes. Outside auto mode, Claude Code also asks
+  your permission before sending each answer.
+- When the platform can't do something you need, Claude shows you the feature request it would
+  send the Olbrain team and sends it only on your yes.
 - Draft test runs, probes and compiles are counted per developer per day, to keep builds
   within their budget. Pricing does not change.
 - Once an agent is live, its go-live steps call Olbrain's agent API at
