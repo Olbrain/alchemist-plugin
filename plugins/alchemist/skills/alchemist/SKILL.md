@@ -144,8 +144,9 @@ When a result has a `card`, or `open_cards` lists one, the build is waiting on t
   customer, a rename, department or email-address change, and a fix card's publish-as-is come
   this way. Connecting a channel, tool sign-ins and keys, a webhook signing secret and the free
   trial always use the link. On a build you drive, a yes to publishing, making a version live
-  or trying it on a share of conversations, ending a trial, a lesson, a schedule change and
-  publishing a finance team come this way too; "not now" to them is an ordinary answer.
+  or trying it on a share of conversations, ending a trial, a lesson, a schedule change,
+  publishing a finance team, and giving a live agent documents or sharing its table come this
+  way too; "not now" to them is an ordinary answer.
 - A website connect card needs the site's address in `origins` (https, or http://localhost with
   its port to try it first); take it from their project when answering for them.
 - A Drive folder card: the user shares the folder with the address shown, as a Viewer, in
