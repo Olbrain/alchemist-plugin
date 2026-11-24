@@ -44,8 +44,10 @@ Upload and publish:
 - `npm run package -- <folder>` writes `dist/<id>.zip`. Push the build's commit first: the
   upload needs `https://github.com/Olbrain/<repo>/commit/<sha>`.
 - Upload in three steps: `alchemist_screen_upload` with `app_id`; then
-  `curl -sf -X PUT -H "Content-Type: <content_type>" --data-binary @dist/<id>.zip "<url>"`
-  with `put` from that reply; then `alchemist_screen_upload` again with `upload_id` and
+  `curl -sf -X PUT -H "Content-Type: application/zip" --data-binary @dist/<id>.zip "<url>"`
+  with `put.url` from that reply, in double quotes as shown, only when it starts with
+  `https://storage.googleapis.com/` and `put.content_type` is `application/zip` (otherwise stop
+  and tell the user); then `alchemist_screen_upload` again with `upload_id` and
   `source_commit_url`. The URL is a 30-minute write link: run it, don't show it. An expired
   upload starts over from the first step.
 - `passed: false` lists every failed check: show them all, fix them, and upload again.
