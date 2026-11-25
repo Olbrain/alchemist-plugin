@@ -108,6 +108,11 @@ Olbrain's console, where your team can open, review and change it.
 Then run `/mcp`, pick **alchemist** and sign in with your Olbrain account. New to Olbrain?
 Choose **Create account** on the sign-in page.
 
+Claude Code doesn't update plugins from a GitHub marketplace on its own. To get new versions
+automatically, open `/plugin`, go to **Marketplaces**, pick **alchemist** and turn on
+auto-update. Or update when you like with `claude plugin update alchemist@alchemist` in a
+terminal, then `/reload-plugins`.
+
 <details>
 <summary>Stop Claude Code asking each time it checks on a build</summary>
 
