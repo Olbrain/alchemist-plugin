@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.20",
+  "version": "0.9.21",
   "description": "Build, test and publish Olbrain AI agents from Claude Code, with Olbrain's Alchemist builder.",
   "author": {
     "name": "Olbrain",
@@ -15,6 +15,7 @@
   "supportUrl": "https://olbrain.com/contact/",
   "termsOfServiceUrl": "https://olbrain.com/terms.html",
   "keywords": ["olbrain", "agents", "alchemist", "mcp"],
+  "hooks": "./hooks/claude-code.json",
   "mcpServers": {
     "alchemist": {
       "type": "http",
