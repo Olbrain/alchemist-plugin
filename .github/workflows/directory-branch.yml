@@ -1,0 +1,45 @@
+name: directory branch
+
+# The Claude plugin directory refuses hooks and scripts from organisations Anthropic hasn't Verified (seen Nov 25 on
+# 0.9.21). The directory submission tracks the `directory` branch: main with the alchemist plugin's hooks taken out.
+# GitHub-marketplace installs keep reading main, hooks included. Point the submission back at main once Olbrain is
+# Verified.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: directory-branch
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Write main without hooks to the directory branch
+        run: |
+          git rm -rq plugins/alchemist/hooks
+          python3 - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("plugins/alchemist/.claude-plugin/plugin.json")
+          d = json.loads(p.read_text())
+          del d["hooks"]
+          p.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+          PY
+          python3 scripts/check_manifests.py
+          git add -A
+          tree=$(git write-tree)
+          parent=$(git rev-parse -q --verify origin/directory || true)
+          if [ -n "$parent" ] && [ "$(git rev-parse "$parent^{tree}")" = "$tree" ]; then
+            echo "directory branch already matches main"; exit 0
+          fi
+          # Append rather than force-push, so commits of versions the directory has scanned stay reachable.
+          commit=$(git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit-tree "$tree" ${parent:+-p "$parent"} -m "Directory build of ${GITHUB_SHA}: main without the hooks")
+          git push origin "$commit:refs/heads/directory"
