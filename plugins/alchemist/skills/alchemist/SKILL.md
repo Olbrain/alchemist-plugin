@@ -53,9 +53,10 @@ answer from the user, in their words, but it returns the state instead of runnin
 
 ## 4. Driving a build yourself
 
-**Keep the user posted.** Every `alchemist_state` and `alchemist_do` result carries `phase`,
-where the build stands (`Plan ✓ → **Build** → Review → Test → Live`, one line per agent). Whenever
-it changes, show it as it is and say in a sentence or two what this phase will do. Say each step
+**Keep the user posted.** Every `alchemist_state`, `alchemist_do` and `alchemist_answer` result
+carries `phase`, where the build stands in a sentence per agent ("Now in phase 2 of 5, Build. The
+plan is done; next come the review, the tests and going live."). Whenever it changes, tell the user
+in those words and say in a sentence or two what this phase will do. Say each step
 in a line before you run it (once for a run of the same step) and what came of it after; never go
 quiet through several steps. When a phase ends, say what it produced and what comes next.
 

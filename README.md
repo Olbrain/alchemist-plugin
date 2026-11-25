@@ -210,8 +210,8 @@ under Organization settings → Connectors). Then click **Connect** and sign in.
 | `05`&nbsp;Publish | The tested version is published, with a 30-day free trial for a new agent. | Publish, or not yet |
 | `06`&nbsp;Go&nbsp;live | Embed code, API and SDK steps, or the channel it answers on. | You run the commands |
 
-As it goes, Claude shows where the build is (`Plan ✓ → **Build** → Review → Test → Live`),
-says what each phase will do and tells you each step before and after it runs.
+As it goes, Claude tells you which of the five phases the build is in (plan, build, review,
+test, go live), what each phase will do, and each step before and after it runs.
 
 Alchemist gives one stage at a time and refuses a step taken out of order. Builds started in
 Noesis, and plugin builds while Olbrain moves accounts over, are still planned by Alchemist's
