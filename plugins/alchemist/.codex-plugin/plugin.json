@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.18",
+  "version": "0.9.19",
   "description": "Describe an AI agent and Alchemist, Olbrain's agent builder, builds it, tests it and publishes it after your yes, ready for your website, WhatsApp or app.",
   "author": {
     "name": "Olbrain",
@@ -99,7 +99,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "Alchemist now keeps you posted through a build: where it stands (Plan, Build, Review, Test, Live), what each phase will do, and a line before and after each step."
+        "release_notes": "Progress you can follow: Alchemist now sends where the build stands (Plan, Build, Review, Test, Live) with every step, and the assistant shows it whenever it changes, says what each phase will do and tells you each step before and after it runs."
       }
     }
   }

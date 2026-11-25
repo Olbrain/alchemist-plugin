@@ -51,19 +51,13 @@ drive the build from here, then read `alchemist_state`.
 On a build you drive, `alchemist` still starts the build and records each new request or
 answer from the user, in their words, but it returns the state instead of running a turn.
 
-**Keep the user posted, whichever way the build runs.** A build goes Plan → Build → Review →
-Test → Live. Plan is the `brief`, `plan` and `change_card` stages, Build is `build` and
-`change`, Review is `review`, Test is `test` and `fix`, and Live is `publish` and `published`
-(publishing, trying it, a channel, going live). On a build Alchemist's model drives, go by the
-kind of the `plan` step under way.
-- When a phase starts, show where the build is, one line per agent, the current phase in bold
-  and phases the agent skips left out (a job has no Review): `Plan ✓ → **Build** → Review →
-  Test → Live`. Then say in a sentence or two what this phase will do.
-- Before each step, or a run of the same step (writing the tests), say in a line what you are
-  doing and why; after it, what happened, from its result. Never go quiet through several steps.
-- When a phase ends, say what it produced and what comes next.
-
 ## 4. Driving a build yourself
+
+**Keep the user posted.** Every `alchemist_state` and `alchemist_do` result carries `phase`,
+where the build stands (`Plan ✓ → **Build** → Review → Test → Live`, one line per agent). Whenever
+it changes, show it as it is and say in a sentence or two what this phase will do. Say each step
+in a line before you run it (once for a run of the same step) and what came of it after; never go
+quiet through several steps. When a phase ends, say what it produced and what comes next.
 
 1. **State first.** Call `alchemist_state(build_id)` at the start, when a result's
    `state.stage` differs from the last one you read, after a refusal, and after a card is
