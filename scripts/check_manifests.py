@@ -38,13 +38,14 @@ def main() -> int:
         found = versions.setdefault(name, {})
         found[".claude-plugin/marketplace.json (plugins)"] = listed[name]
         found.update({p: docs[p]["version"] for p in paths})
-    # The version the Claude Code plugin tells the server it is (whoami's update notice compares it).
-    claude = "plugins/alchemist/.claude-plugin/plugin.json"
-    versions["alchemist"][f"{claude} (X-Alchemist-Plugin)"] = docs[claude]["mcpServers"]["alchemist"]["headers"][
-        "X-Alchemist-Plugin"]
-    for name, found in versions.items():
         if len(set(found.values())) > 1:
             errors.append(f"{name}: versions differ\n" + "\n".join(f"  {v}  {p}" for p, v in found.items()))
+    entry = docs["plugins/alchemist/.claude-plugin/plugin.json"]["mcpServers"]["alchemist"]
+    if set(entry) != {"type", "url"}:
+        # Seen Nov 25: 0.9.22's X-Alchemist-Plugin header signed out everyone who updated.
+        errors.append("plugins/alchemist/.claude-plugin/plugin.json: the alchemist MCP entry must have only type and "
+                      "url. Claude Code keys a server's saved sign-in by its entry, headers included, so a header "
+                      "signs every user out when they update (so does a changed url).")
     print("\n".join(errors) or "manifests agree: " + ", ".join(f"{n} {next(iter(v.values()))}" for n, v in versions.items()))
     return 1 if errors else 0
 
