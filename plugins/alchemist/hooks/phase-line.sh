@@ -3,18 +3,20 @@
 # phase, show the user that sentence ("Now in phase 2 of 5, Build. ..."). Claude itself won't relay it: it reads
 # "tell the user" inside a tool result as data, and kept it to its thinking in every live test (Nov 25).
 # Prints nothing for any other result. Bash only, so it runs wherever Claude Code runs hooks.
+#
+# The result arrives as JSON text inside the event's JSON, so its own fields look like \"next\": \"...\". Only the
+# result's `next` field is read: text from outside (customers, emails, test replies) sits inside a string there,
+# its quotes escaped once more (\\\"), so it can never match the start below and can't fake a phase.
 in=$(cat)
-case "$in" in *"The build has moved to a new phase."*"will do:"*"Read the build"*) ;; *) exit 0 ;; esac
-p=${in#*The build has moved to a new phase.}
-p=${p#*will do:}
-p=${p%%Read the build*}
-# The result reaches the hook as a JSON string inside JSON: undo the outer escaping, which leaves the sentence as
-# JSON string content, then put the line breaks between agents' sentences on one line.
+start='\"next\": \"The build has moved to a new phase. '
+case "$in" in *"$start"*'will do:\\n'*'\\nRead the build'*) ;; *) exit 0 ;; esac
+p=${in#*"$start"}
+p=${p#*'will do:\\n'}
+p=${p%%'\\nRead the build'*}
+# Undo the outer escaping: what is left is the sentence as JSON string content (escaped quotes, accents and the
+# line break between two agents' sentences kept), so it goes into the message as it is.
 p=${p//'\\'/$'\001'}
 p=${p//'\"'/'"'}
 p=${p//$'\001'/'\'}
-p=${p//'\n'/ }
-p="${p#"${p%%[! ]*}"}"
-p="${p%"${p##*[! ]}"}"
 [ -n "$p" ] && printf '{"systemMessage": "%s"}\n' "$p"
 exit 0
