@@ -19,6 +19,8 @@ jobs:
         run: python3 scripts/check_manifests.py
       - name: Phase hook
         run: python3 scripts/test_phase_hook.py
+      - name: Update check
+        run: python3 scripts/test_update_check.py
       - name: Canvas tests
         run: |
           npm install --global @anthropic-ai/claude-code
