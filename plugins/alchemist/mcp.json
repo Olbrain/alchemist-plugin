@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "alchemist": {
+      "type": "streamable-http",
+      "url": "https://alchemist.olbrain.com/mcp/"
+    }
+  }
+}

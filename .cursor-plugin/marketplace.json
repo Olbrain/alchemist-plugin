@@ -1,0 +1,16 @@
+{
+  "name": "alchemist",
+  "owner": {
+    "name": "Olbrain"
+  },
+  "metadata": {
+    "description": "Olbrain's plugins for building, testing and publishing AI agents."
+  },
+  "plugins": [
+    {
+      "name": "alchemist",
+      "source": "plugins/alchemist",
+      "description": "Build, test and publish Olbrain AI agents from Cursor, with Olbrain's Alchemist builder."
+    }
+  ]
+}

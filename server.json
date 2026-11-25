@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.olbrain/alchemist",
+  "title": "Olbrain Alchemist",
+  "description": "Build, test and publish Olbrain AI agents from Claude Code, Codex, Antigravity, Cursor or Claude.ai.",
+  "version": "0.9.24",
+  "websiteUrl": "https://olbrain.com/developers/",
+  "icons": [
+    {
+      "src": "https://alchemist.olbrain.com/alchemist-icon-192.png",
+      "mimeType": "image/png",
+      "sizes": ["192x192"]
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/Olbrain/alchemist-plugin",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://alchemist.olbrain.com/mcp/"
+    }
+  ]
+}

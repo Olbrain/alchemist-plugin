@@ -1,0 +1,18 @@
+---
+name: status
+description: Show your Olbrain account, active organisation and Alchemist builds, with any cards waiting on you.
+disable-model-invocation: true
+---
+
+Show the user where things stand in Alchemist:
+
+1. Call `whoami`: who they are signed in as and the active organisation.
+2. Call `alchemist_builds`: list the builds by `label`, in the order returned (waiting
+   and running first; say how long a `stale` one has waited). Group `idle` builds (no agent yet) on one line each at the end. They can hold an
+   unfinished interview, so never call them empty.
+3. For each build with a card waiting or a turn running, call `alchemist_build` and
+   show any open cards with their title and `responses`, and its `next_step` in one line.
+   Don't call `alchemist_state` here: reading it marks the build's news as seen.
+
+For a waiting card, follow the alchemist skill: it says when you may answer it and
+when to ask the user.
