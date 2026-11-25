@@ -99,7 +99,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "Progress you can follow: Alchemist now sends where the build stands (Plan, Build, Review, Test, Live) with every step, and the assistant shows it whenever it changes, says what each phase will do and tells you each step before and after it runs."
+        "release_notes": "Your yes first: the assistant never approves publishing, making a version live, or any change to an agent customers use today on your behalf, in any mode; those always come to you. It shows you a platform gap report and sends it to Olbrain only on your yes. When it puts a live agent behind a route in your code, the route sits behind your app's sign-in or a rate limit and keeps the session on the server. Progress you can follow:Alchemist now sends where the build stands (Plan, Build, Review, Test, Live) with every step, and the assistant shows it whenever it changes, says what each phase will do and tells you each step before and after it runs."
       }
     }
   }
