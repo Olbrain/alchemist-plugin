@@ -111,7 +111,9 @@ Choose **Create account** on the sign-in page.
 Claude Code doesn't update plugins from a GitHub marketplace on its own. To get new versions
 automatically, open `/plugin`, go to **Marketplaces**, pick **alchemist** and turn on
 auto-update. Or update when you like with `claude plugin update alchemist@alchemist` in a
-terminal, then `/reload-plugins`.
+terminal, then `/reload-plugins`. Once a day, when a session starts, the plugin checks GitHub
+for a newer version and tells you if there is one; it sends nothing about you. Set
+`ALCHEMIST_NO_UPDATE_CHECK=1` to turn that off.
 
 <details>
 <summary>Stop Claude Code asking each time it checks on a build</summary>

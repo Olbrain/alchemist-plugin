@@ -1,10 +1,15 @@
 {
-  "description": "Shows the user the build's phase when an Alchemist step moves it to a new one.",
+  "description": "Shows the user the build's phase when an Alchemist step moves it to a new one, and, once a day at session start, when a newer Alchemist plugin is out.",
   "hooks": {
     "PostToolUse": [
       {
         "matcher": "^mcp__(plugin_alchemist_alchemist|claude_ai_Alchemist)__alchemist_(do|answer)$",
         "hooks": [{"type": "command", "command": "LC_ALL=C awk -f \"${CLAUDE_PLUGIN_ROOT}/hooks/phase-line.awk\"", "timeout": 5}]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [{"type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/update-check.sh\"", "timeout": 5}]
       }
     ]
   }
