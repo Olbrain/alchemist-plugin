@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "description": "Describe an AI agent and Alchemist, Olbrain's agent builder, builds it, tests it and publishes it after your yes, ready for your website, WhatsApp or app.",
   "author": {
     "name": "Olbrain",
@@ -99,7 +99,7 @@
         "commerce": false
       },
       "publication": {
-        "release_notes": "A yes to publishing an agent or making a version live is always the user's own, in every mode, and Alchemist enforces it. A feature request for something the platform can't do is shown to the user first and sent only on their yes. The server route for a custom chat UI sits behind sign-in or a rate limit, keeps each visitor's session on the server and caps message length."
+        "release_notes": "Alchemist now keeps you posted through a build: where it stands (Plan, Build, Review, Test, Live), what each phase will do, and a line before and after each step."
       }
     }
   }
