@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Manifests are valid JSON and agree on each plugin's version
         run: python3 scripts/check_manifests.py
+      - name: Phase hook
+        run: python3 scripts/test_phase_hook.py
       - name: Canvas tests
         run: |
           npm install --global @anthropic-ai/claude-code

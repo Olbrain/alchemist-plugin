@@ -211,7 +211,8 @@ under Organization settings → Connectors). Then click **Connect** and sign in.
 | `06`&nbsp;Go&nbsp;live | Embed code, API and SDK steps, or the channel it answers on. | You run the commands |
 
 As it goes, Claude tells you which of the five phases the build is in (plan, build, review,
-test, go live), what each phase will do, and each step before and after it runs.
+test, go live), what each phase will do, and each step before and after it runs. In Claude Code
+the plugin also prints the phase itself when it changes, so you see it even when Claude doesn't say it.
 
 Alchemist gives one stage at a time and refuses a step taken out of order. Builds started in
 Noesis, and plugin builds while Olbrain moves accounts over, are still planned by Alchemist's
