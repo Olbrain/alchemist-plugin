@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.9.22",
+  "version": "0.9.23",
   "description": "Describe an AI agent and Alchemist, Olbrain's agent builder, builds it, tests it and publishes it after your yes, ready for your website, WhatsApp or app.",
   "author": {
     "name": "Olbrain",
